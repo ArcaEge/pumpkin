@@ -20,6 +20,7 @@
 			"extensions": [
 				"svelte.svelte-vscode",
 				"esbenp.prettier-vscode",
+				"wakatime.vscode-wakatime",
 			]
 		}
 	},
