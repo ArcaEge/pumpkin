@@ -1,10 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double:wght@100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Rubik+Distressed&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Sora:wght@100..800&display=swap');
 
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
 @theme {
-    --font-hero: "Rubik Distressed", var(--font-sans);
-    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-hero: 'Press Start 2P', var(--font-sans);
+	--font-sans:
+		'Sora', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+		'Segoe UI Symbol', 'Noto Color Emoji';
+
+	--background-color: #22211f;
+	--background-color-secondary: #2e2a27;
+    --font-color: #f3dcc6;
+}
+
+@layer base {
+    body {
+        background-color: var(--background-color);
+        color: var(--font-color);
+        background-image:  linear-gradient(var(--background-color-secondary) 2px, transparent 2px), linear-gradient(90deg, var(--background-color-secondary) 2px, transparent 2px), linear-gradient(var(--background-color-secondary) 1px, transparent 1px), linear-gradient(90deg, var(--background-color-secondary) 1px, var(--background-color) 1px);
+        background-size: 50px 50px, 50px 50px, 5px 5px, 5px 5px;
+        background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+        background-attachment: fixed;
+    }
 }
