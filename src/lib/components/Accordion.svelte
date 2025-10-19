@@ -1,8 +1,20 @@
 <script lang="ts">
-	let { children, text, ...other } = $props();
-	let state = $state(false);
+	let {
+		children,
+		text,
+		state = $bindable(false),
+		index = undefined,
+		onstatechange = (newstate: boolean, index?: number) => {},
+		...other
+	} = $props();
 
 	function invertState() {
+		if (index) {
+			onstatechange(!state, index);
+		} else {
+			onstatechange(!state);
+		}
+
 		state = !state;
 	}
 </script>
@@ -12,20 +24,23 @@
 		<button
 			class="{state
 				? 'bg-amber-900'
-				: 'bg-amber-800'} w-full cursor-pointer p-3 text-left transition-colors hover:bg-amber-900 flex"
+				: 'bg-amber-800'} flex w-full cursor-pointer p-3 text-left transition-colors hover:bg-amber-900"
 			onclick={invertState}
 		>
-			<span class="grow">{text}</span>
+			<span class="grow {state ? 'font-semibold' : 'font-medium'} transition-all">{text}</span>
 			<span>
 				{#if state}
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 12.998H5v-2h14z"/></svg>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+						><path fill="currentColor" d="M19 12.998H5v-2h14z" /></svg
+					>
 				{:else}
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"/></svg>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+						><path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" /></svg
+					>
 				{/if}
-
-			</span>	
+			</span>
 		</button>
-		<div class="bg-amber-800 {state ? 'p-3' : 'h-0'} overflow-hidden transition-all">
+		<div class="bg-amber-800 {state ? 'p-3' : 'h-0 opacity-0'} overflow-hidden transition-all">
 			{#if children}
 				{@render children?.()}
 			{/if}

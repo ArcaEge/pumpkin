@@ -9,7 +9,7 @@
 >
 	<div>
 		<h1 class="font-hero text-5xl sm:text-6xl md:text-7xl">Traffic</h1>
-		<p class="mt-3 mb-5 text-xl font-medium">
+		<p class="my-3 text-xl font-medium">
 			You ship: traffic light design<br />
 			We ship: cool traffic light
 		</p>
@@ -19,18 +19,30 @@
 </div>
 
 <div class="mt-24 flex flex-col items-center justify-center px-10">
-	<h1 class="text-3xl font-bold sm:text-4xl mb-3">What is this?</h1>
-	<div class="max-w-2xl w-full">
-		<p class="mt-3 mb-5 font-medium max-w-2xl">Odio aut neque maxime doloribus qui id in. Quia libero dolorum distinctio. Similique nemo ad sed molestias aperiam velit.
-	
-	Aut accusantium voluptatem vitae est quos in voluptates ipsa. Hic fugiat optio ipsum vel. Est nulla omnis ullam. Reiciendis aut hic enim fuga facilis dolorem. Dicta pariatur voluptate sit aperiam fugit.
-	
-	Unde eligendi explicabo ex qui officiis minus. Dolores doloremque vel officia fugit. Est error aperiam voluptatibus. Modi sed voluptatibus nobis doloribus et. Et et doloribus dolor rerum ullam ipsum. Harum possimus quas dolor culpa impedit.</p>
+	<h1 class="mb-3 text-3xl font-bold sm:text-4xl">What is this?</h1>
+	<div class="w-full max-w-2xl">
+		<p class="mt-3 mb-5 max-w-2xl font-medium">
+			Odio aut neque maxime doloribus qui id in. Quia libero dolorum distinctio. Similique nemo ad
+			sed molestias aperiam velit. Aut accusantium voluptatem vitae est quos in voluptates ipsa. Hic
+			fugiat optio ipsum vel. Est nulla omnis ullam. Reiciendis aut hic enim fuga facilis dolorem.
+			Dicta pariatur voluptate sit aperiam fugit. Unde eligendi explicabo ex qui officiis minus.
+			Dolores doloremque vel officia fugit. Est error aperiam voluptatibus. Modi sed voluptatibus
+			nobis doloribus et. Et et doloribus dolor rerum ullam ipsum. Harum possimus quas dolor culpa
+			impedit.
+		</p>
 		<Accordion text="cool accordion">
-			<p>Unde eligendi explicabo ex qui officiis minus. Dolores doloremque vel officia fugit. Est error aperiam voluptatibus. Modi sed voluptatibus nobis doloribus et. Et et doloribus dolor rerum ullam ipsum. Harum possimus quas dolor culpa impedit</p>
+			<p>
+				Unde eligendi explicabo ex qui officiis minus. Dolores doloremque vel officia fugit. Est
+				error aperiam voluptatibus. Modi sed voluptatibus nobis doloribus et. Et et doloribus dolor
+				rerum ullam ipsum. Harum possimus quas dolor culpa impedit
+			</p>
 		</Accordion>
 		<Accordion text="cool accordion part 2">
-			<p>Unde eligendi explicabo ex qui officiis minus. Dolores doloremque vel officia fugit. Est error aperiam voluptatibus. Modi sed voluptatibus nobis doloribus et. Et et doloribus dolor rerum ullam ipsum. Harum possimus quas dolor culpa impedit</p>
+			<p>
+				Unde eligendi explicabo ex qui officiis minus. Dolores doloremque vel officia fugit. Est
+				error aperiam voluptatibus. Modi sed voluptatibus nobis doloribus et. Et et doloribus dolor
+				rerum ullam ipsum. Harum possimus quas dolor culpa impedit
+			</p>
 		</Accordion>
 	</div>
 </div>
