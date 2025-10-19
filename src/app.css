@@ -15,6 +15,8 @@
 	--background-color-tertiary: #342f2cad;
 	--background-color-quarternary: #94857d;
 	--font-color: #f3dcc6;
+	
+	--color-primary-100: #f3dcc6;
 }
 
 @layer base {
@@ -43,6 +45,5 @@
 			80px 80px,
 			80px 80px;
 		background-attachment: fixed;
-        
 	}
 }

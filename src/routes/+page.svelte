@@ -2,6 +2,7 @@
 	import trafficLight from '$lib/assets/traffic-light.png';
 	import Button from '$lib/components/Button.svelte';
 	import Accordion from '$lib/components/Accordion.svelte';
+	import Rules from './Rules.svelte';
 </script>
 
 <div
@@ -14,29 +15,40 @@
 			We ship: cool traffic light
 		</p>
 		<Button text="RSVP Now" href="#" />
-		<Button text="Submit" bgcolor = "bg-amber-800" disabled/>
+		<Button text="Submit" bgcolor="bg-amber-800" disabled />
 		<p>(coming soon)</p>
 	</div>
-	<img src={trafficLight} alt="Traffic light CAD model" class="h-100 drop-shadow-md lg:ml-20" />
+	<img
+		src={trafficLight}
+		alt="Traffic light CAD model"
+		class="h-100 drop-shadow-md transition-all hover:drop-shadow-2xl hover:drop-shadow-amber-600/10 active:hover:drop-shadow-amber-600/20 lg:ml-20"
+	/>
 </div>
 
 <div class="mt-24 flex flex-col items-center justify-center px-10">
-	<h1 class="mb-3 text-3xl font-bold sm:text-4xl">What is this?</h1>
+	<h1 class="mb-3 text-center text-3xl font-bold sm:text-4xl">What is this?</h1>
 	<div class="w-full max-w-2xl">
-		<p class="mt-3 mb-5 max-w-2xl font-medium">
-			Odio aut neque maxime doloribus qui id in. Quia libero dolorum distinctio. Similique nemo ad
-			sed molestias aperiam velit. Aut accusantium voluptatem vitae est quos in voluptates ipsa. Hic
-			fugiat optio ipsum vel. Est nulla omnis ullam. Reiciendis aut hic enim fuga facilis dolorem.
-			Dicta pariatur voluptate sit aperiam fugit. Unde eligendi explicabo ex qui officiis minus.
-			Dolores doloremque vel officia fugit. Est error aperiam voluptatibus. Modi sed voluptatibus
-			nobis doloribus et. Et et doloribus dolor rerum ullam ipsum. Harum possimus quas dolor culpa
-			impedit.
+		<p class="mt-3 max-w-2xl">
+			<strong>Ever wanted to own a traffic light?</strong> Now, you can do so! All you need to do is
+			spend 10 hours designing a traffic light in CAD and we'll send it to you, for free.
 		</p>
-		<Accordion text="cool accordion">
+		<p class="mt-3 max-w-2xl">
+			Once you submit, you'll be enrolled in the 2nd stage of the YSWS (coming sometime later),
+			where you'll design a control board for your traffic light using KiCAD.
+		</p>
+	</div>
+</div>
+
+<Rules />
+
+<div class="mt-20 flex flex-col items-center justify-center px-10">
+	<h1 class="mb-3 text-center text-2xl font-bold sm:text-4xl">Frequently asked questions</h1>
+	<div class="w-full max-w-2xl">
+		<Accordion text="Is this free?">
 			<p>
-				Unde eligendi explicabo ex qui officiis minus. Dolores doloremque vel officia fugit. Est
-				error aperiam voluptatibus. Modi sed voluptatibus nobis doloribus et. Et et doloribus dolor
-				rerum ullam ipsum. Harum possimus quas dolor culpa impedit
+				Yes! This program is entirely funded by <a href="https://hackclub.com" class="underline">
+					Hack Club
+				</a>.
 			</p>
 		</Accordion>
 		<Accordion text="cool accordion part 2">
