@@ -11,17 +11,38 @@
 		'Segoe UI Symbol', 'Noto Color Emoji';
 
 	--background-color: #22211f;
-	--background-color-secondary: #2e2a27;
-    --font-color: #f3dcc6;
+	--background-color-secondary: #2e2a2770;
+	--background-color-tertiary: #342f2cad;
+	--background-color-quarternary: #94857d;
+	--font-color: #f3dcc6;
 }
 
 @layer base {
-    body {
-        background-color: var(--background-color);
-        color: var(--font-color);
-        background-image:  linear-gradient(var(--background-color-secondary) 2px, transparent 2px), linear-gradient(90deg, var(--background-color-secondary) 2px, transparent 2px), linear-gradient(var(--background-color-secondary) 1px, transparent 1px), linear-gradient(90deg, var(--background-color-secondary) 1px, var(--background-color) 1px);
+	body {
+		background-color: var(--background-color);
+		color: var(--font-color);
+		/* background-image:  linear-gradient(var(--background-color-secondary) 2px, transparent 2px), linear-gradient(90deg, var(--background-color-secondary) 2px, transparent 2px), linear-gradient(var(--background-color-secondary) 1px, transparent 1px), linear-gradient(90deg, var(--background-color-secondary) 1px, var(--background-color) 1px);
         background-size: 50px 50px, 50px 50px, 5px 5px, 5px 5px;
-        background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
-        background-attachment: fixed;
-    }
+        background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px; */
+		background:
+			linear-gradient(-90deg, var(--background-color-secondary) 1px, transparent 1px),
+			linear-gradient(var(--background-color-secondary) 1px, transparent 1px),
+			linear-gradient(-90deg, var(--background-color-tertiary) 1px, transparent 1px),
+			linear-gradient(var(--background-color-tertiary) 1px, transparent 1px),
+			linear-gradient(transparent 3px, var(--background-color) 3px, var(--background-color) 78px, transparent 78px),
+			linear-gradient(-90deg, var(--background-color-quarternary) 1px, transparent 1px),
+			linear-gradient(-90deg, transparent 3px, var(--background-color) 3px, var(--background-color) 78px, transparent 78px),
+			linear-gradient(var(--background-color-quarternary) 1px, transparent 1px), var(--background-color);
+		background-size:
+			4px 4px,
+			4px 4px,
+			80px 80px,
+			80px 80px,
+			80px 80px,
+			80px 80px,
+			80px 80px,
+			80px 80px;
+		background-attachment: fixed;
+        
+	}
 }
