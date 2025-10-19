@@ -13,7 +13,9 @@
 			You ship: traffic light design<br />
 			We ship: cool traffic light
 		</p>
-		<Button text="RSVP Now" />
+		<Button text="RSVP Now" href="#" />
+		<Button text="Submit" bgcolor = "bg-amber-800" disabled/>
+		<p>(coming soon)</p>
 	</div>
 	<img src={trafficLight} alt="Traffic light CAD model" class="h-100 drop-shadow-md lg:ml-20" />
 </div>
