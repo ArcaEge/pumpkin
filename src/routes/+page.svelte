@@ -14,7 +14,7 @@
 		<h1 class="font-hero text-5xl sm:text-6xl md:text-7xl">Traffic</h1>
 		<p class="my-3 text-xl font-medium">
 			You ship: traffic light design<br />
-			We ship: cool traffic light
+			We ship: cool traffic signal light
 		</p>
 		<Button text="RSVP Now" href="#" />
 		<Button text="Submit" bgcolor="bg-amber-800" disabled />
@@ -55,11 +55,18 @@
 				</a>.
 			</p>
 		</Accordion>
-		<Accordion text="cool accordion part 2">
+		<Accordion text="What can I make?">
+			<p>Any sort of reasonable traffic light design is fine, get creative!</p>
+		</Accordion>
+		<Accordion text="What are the requirements?">
 			<p>
-				Unde eligendi explicabo ex qui officiis minus. Dolores doloremque vel officia fugit. Est
-				error aperiam voluptatibus. Modi sed voluptatibus nobis doloribus et. Et et doloribus dolor
-				rerum ullam ipsum. Harum possimus quas dolor culpa impedit
+				You must spend at least 10 hours on your design, which must be made in Onshape using
+				Onshape-Wakatime.
+			</p>
+		</Accordion>
+		<Accordion text="Where did you get these traffic lights from?">
+			<p>
+				Good question 😊. I will not elaborate further.
 			</p>
 		</Accordion>
 	</div>
