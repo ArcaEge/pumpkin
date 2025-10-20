@@ -14,7 +14,7 @@
 		<h1 class="font-hero text-5xl sm:text-6xl md:text-7xl">Traffic</h1>
 		<p class="my-3 text-xl font-medium">
 			You ship: traffic light design<br />
-			We ship: cool traffic signal light
+			We ship: cool traffic light
 		</p>
 		<Button text="RSVP Now" href="#" />
 		<Button text="Submit" bgcolor="bg-amber-800" disabled />
