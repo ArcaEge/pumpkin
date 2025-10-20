@@ -65,9 +65,7 @@
 			</p>
 		</Accordion>
 		<Accordion text="Where did you get these traffic lights from?">
-			<p>
-				Good question 😊. I will not elaborate further.
-			</p>
+			<p>Good question 😊. I will not elaborate further.</p>
 		</Accordion>
 	</div>
 </div>

@@ -15,7 +15,7 @@
 	--background-color-tertiary: #342f2cad;
 	--background-color-quarternary: #94857d;
 	--font-color: #f3dcc6;
-	
+
 	--color-primary-100: #f3dcc6;
 }
 
@@ -31,10 +31,22 @@
 			linear-gradient(var(--background-color-secondary) 1px, transparent 1px),
 			linear-gradient(-90deg, var(--background-color-tertiary) 1px, transparent 1px),
 			linear-gradient(var(--background-color-tertiary) 1px, transparent 1px),
-			linear-gradient(transparent 3px, var(--background-color) 3px, var(--background-color) 78px, transparent 78px),
+			linear-gradient(
+				transparent 3px,
+				var(--background-color) 3px,
+				var(--background-color) 78px,
+				transparent 78px
+			),
 			linear-gradient(-90deg, var(--background-color-quarternary) 1px, transparent 1px),
-			linear-gradient(-90deg, transparent 3px, var(--background-color) 3px, var(--background-color) 78px, transparent 78px),
-			linear-gradient(var(--background-color-quarternary) 1px, transparent 1px), var(--background-color);
+			linear-gradient(
+				-90deg,
+				transparent 3px,
+				var(--background-color) 3px,
+				var(--background-color) 78px,
+				transparent 78px
+			),
+			linear-gradient(var(--background-color-quarternary) 1px, transparent 1px),
+			var(--background-color);
 		background-size:
 			4px 4px,
 			4px 4px,
