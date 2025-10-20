@@ -1,8 +1,10 @@
 <script lang="ts">
 	import trafficLight from '$lib/assets/traffic-light.png';
+
 	import Button from '$lib/components/Button.svelte';
 	import Accordion from '$lib/components/Accordion.svelte';
 	import Rules from './Rules.svelte';
+	import Prizes from './Prizes.svelte';
 </script>
 
 <div
@@ -38,6 +40,8 @@
 		</p>
 	</div>
 </div>
+
+<Prizes />
 
 <Rules />
 
