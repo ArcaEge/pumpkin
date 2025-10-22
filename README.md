@@ -1,8 +1,10 @@
-# traffic
+# leaf
+
+Fork of https://github.com/ArcaEge/traffic
 
 A template site for a mysterious Hack Club YSWS event, I'll be reusing the same site design but with different content.
 
-The site is available at: https://traffic.arcaege.dev/
+<!-- The site is available at: https://traffic.arcaege.dev/ -->
 
 Built with SvelteKit, deployed on Cloudflare Workers (because free!!! would highly recommend for small projects like this)
 
