@@ -3,8 +3,12 @@ import { env } from '$env/dynamic/private';
 import { db } from '$lib/server/db/index.js';
 import { user } from '$lib/server/db/schema.js';
 import { eq } from 'drizzle-orm';
+import { SESSION_EXPIRY_DAYS, DAY_IN_MS, createSession, setSessionTokenCookie, generateSessionToken } from '$lib/server/auth.js';
 
-export async function GET({ url, cookies }) {
+export async function GET(event) {
+	const url = event.url;
+	const cookies = event.cookies;
+
 	const urlState = url.searchParams.get('state');
 	const code = url.searchParams.get('code');
 
@@ -15,14 +19,14 @@ export async function GET({ url, cookies }) {
 	const cookieState = cookies.get('oauth_state');
 
 	if (!cookieState || cookieState !== urlState) {
-		var redirectURL = new URL(`${url.protocol}//${url.host}/auth/slack`);
+		let redirectURL = new URL(`${url.protocol}//${url.host}/auth/slack`);
 		return redirect(302, redirectURL);
 	}
 
 	cookies.delete('oauth_state', { path: '/' });
 
 	// Get token
-	var openidConnectTokenURL = new URL('https://slack.com/api/openid.connect.token');
+	let openidConnectTokenURL = new URL('https://slack.com/api/openid.connect.token');
 	openidConnectTokenURL.searchParams.set('code', code);
 	openidConnectTokenURL.searchParams.set(
 		'client_id',
@@ -39,21 +43,21 @@ export async function GET({ url, cookies }) {
 	});
 
 	if (!openidConnectTokenRes.ok) {
-		var redirectURL = new URL(`${url.protocol}//${url.host}/auth/slack`);
+		let redirectURL = new URL(`${url.protocol}//${url.host}/auth/slack`);
 		return redirect(302, redirectURL);
 	}
 
 	let openidConnectTokenJSON = await openidConnectTokenRes.json();
 
 	if (openidConnectTokenJSON['ok'] !== true) {
-		var redirectURL = new URL(`${url.protocol}//${url.host}/auth/slack`);
+		let redirectURL = new URL(`${url.protocol}//${url.host}/auth/slack`);
 		return redirect(302, redirectURL);
 	}
 
 	const token = openidConnectTokenJSON['access_token'];
 
 	// Get user data
-	var openidConnectDataURL = new URL('https://slack.com/api/openid.connect.userInfo');
+	let openidConnectDataURL = new URL('https://slack.com/api/openid.connect.userInfo');
 	const openidConnectDataRes = await fetch(openidConnectDataURL, {
 		method: 'POST',
 		headers: {
@@ -62,14 +66,14 @@ export async function GET({ url, cookies }) {
 	});
 
 	if (!openidConnectDataRes.ok) {
-		var redirectURL = new URL(`${url.protocol}//${url.host}/auth/slack`);
+		let redirectURL = new URL(`${url.protocol}//${url.host}/auth/slack`);
 		return redirect(302, redirectURL);
 	}
 
 	let openidConnectDataJSON = await openidConnectDataRes.json();
 
 	if (openidConnectDataJSON['ok'] !== true) {
-		var redirectURL = new URL(`${url.protocol}//${url.host}/auth/slack`);
+		let redirectURL = new URL(`${url.protocol}//${url.host}/auth/slack`);
 		return redirect(302, redirectURL);
 	}
 
@@ -80,7 +84,6 @@ export async function GET({ url, cookies }) {
 	// TODO: Check Hackatime API if they're banned and identity if they're verified
 	// https://identity.hackclub.com/api/external/check?slack_id=
 	// https://hackatime.hackclub.com/api/v1/users/SLACK_ID/trust_factor
-	console.log(slackID, profilePic);
 
 	// Create user if doesn't exist
 	const databaseUser = await db.select().from(user).where(eq(user.id, slackID)).get();
@@ -93,6 +96,10 @@ export async function GET({ url, cookies }) {
 		await db.insert(user).values({ id: slackID, name: name, profilePicture: profilePic });
 	}
 
-	var redirectURL = new URL(`${url.protocol}//${url.host}/dashboard`);
+	const sessionToken = generateSessionToken();
+	const session = await createSession(sessionToken, slackID);
+	setSessionTokenCookie(event, sessionToken, new Date(Date.now() + DAY_IN_MS * SESSION_EXPIRY_DAYS))
+
+	let redirectURL = new URL(`${url.protocol}//${url.host}/dashboard`);
 	return redirect(302, redirectURL);
 }

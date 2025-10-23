@@ -29,14 +29,14 @@
 	class="mt-40 flex w-full flex-col items-center justify-center px-10 md:mt-24 lg:mt-16 lg:flex-row"
 >
 	<div>
-		<h1 class="font-hero text-5xl sm:text-6xl md:text-7xl">Traffic</h1>
+		<h1 class="font-hero text-5xl sm:text-6xl md:text-7xl">Leaf</h1>
 		<p class="my-3 text-xl font-medium">
-			You ship: traffic light design<br />
-			We ship: cool traffic light
+			You ship: leaf design<br />
+			We ship: cool leaf from Hack Club HQ
 		</p>
 		<Button text="Login with Slack" href="/auth/slack" />
-		<Button text="Submit" bgcolor="bg-amber-800" disabled />
-		<p>(coming soon)</p>
+		<!-- <Button text="Submit" bgcolor="bg-amber-800" disabled /> -->
+		<!-- <p>(coming soon)</p> -->
 	</div>
 	<img
 		src={trafficLight}
