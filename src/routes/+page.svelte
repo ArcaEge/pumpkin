@@ -5,6 +5,7 @@
 	import Accordion from '$lib/components/Accordion.svelte';
 	import Rules from './Rules.svelte';
 	import Prizes from './Prizes.svelte';
+	import Footer from './Footer.svelte';
 </script>
 
 <div
@@ -16,7 +17,7 @@
 			You ship: traffic light design<br />
 			We ship: cool traffic light
 		</p>
-		<Button text="RSVP Now" href="#" />
+		<Button text="Login with Slack" href="/auth/slack" />
 		<Button text="Submit" bgcolor="bg-amber-800" disabled />
 		<p>(coming soon)</p>
 	</div>
@@ -69,3 +70,5 @@
 		</Accordion>
 	</div>
 </div>
+
+<Footer />
