@@ -7,7 +7,6 @@ import * as table from '$lib/server/db/schema';
 
 export const DAY_IN_MS = 1000 * 60 * 60 * 24;
 export const SESSION_EXPIRY_DAYS = 30;
-
 export const sessionCookieName = 'auth-session';
 
 export function generateSessionToken() {

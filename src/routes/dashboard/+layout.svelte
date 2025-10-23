@@ -3,5 +3,5 @@
 </script>
 
 {data.user.name}
-<!-- <a href=""></a> -->
+<a href="/auth/logout">Logout</a>
 {@render children?.()}
