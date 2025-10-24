@@ -113,7 +113,7 @@ export async function GET(event) {
 	}
 		
 	const sessionToken = generateSessionToken();
-	const session = await createSession(sessionToken, databaseUser.id);
+	await createSession(sessionToken, databaseUser.id);
 	setSessionTokenCookie(
 		event,
 		sessionToken,
