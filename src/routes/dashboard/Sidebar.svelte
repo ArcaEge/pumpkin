@@ -1,24 +1,26 @@
 <script lang="ts">
-	import SidebarButton from "./SidebarButton.svelte";
+	import SidebarButton from './SidebarButton.svelte';
+	import { House, PencilRuler, Compass, ShoppingCart, LogOut } from '@lucide/svelte';
 
 	let { user } = $props();
 </script>
 
-<div class="m-5 flex w-60 flex-col gap-2 border-4 border-amber-900 bg-amber-950 p-3 shadow-lg/20">
-	<SidebarButton href="/dashboard" exact>Home</SidebarButton>
-	<SidebarButton href="/dashboard/projects">Projects</SidebarButton>
-	<SidebarButton href="/dashboard/explore">Explore</SidebarButton>
-	<SidebarButton href="/dashboard/shop">Shop</SidebarButton>
+<div class="m-5 flex w-60 flex-col gap-2 border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20">
+	<SidebarButton icon={House} href="/dashboard" exact>Home</SidebarButton>
+	<SidebarButton icon={PencilRuler} href="/dashboard/projects">Projects</SidebarButton>
+	<SidebarButton icon={Compass} href="/dashboard/explore">Explore</SidebarButton>
+	<SidebarButton icon={ShoppingCart} href="/dashboard/shop">Shop</SidebarButton>
 	<div class="grow"></div>
-	<div class="flex shadow-xl/3 flex-row gap-3 bg-amber-900">
+	<div class="flex h-15 flex-row gap-3 bg-amber-900 shadow-xl/3">
 		<p>
-			<img src={user.profilePicture} alt="User profile pic" class="h-12" />
+			<img src={user.profilePicture} alt="User profile pic" class="h-15" />
 		</p>
-		<div class="flex items-center justify-center">
+		<div class="flex grow flex-col justify-center">
 			<p>
 				{user.name}
 			</p>
+			<p class="text-sm">0 coins</p>
 		</div>
 	</div>
-	<SidebarButton href="/auth/logout">Log out</SidebarButton>
+	<SidebarButton icon={LogOut} href="/auth/logout">Log out</SidebarButton>
 </div>
