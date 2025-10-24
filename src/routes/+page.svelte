@@ -6,6 +6,8 @@
 	import Rules from './Rules.svelte';
 	import Prizes from './Prizes.svelte';
 	import Footer from './Footer.svelte';
+
+	let { data } = $props();
 </script>
 
 <a href="https://hackclub.com/">
@@ -34,9 +36,11 @@
 			You ship: leaf design<br />
 			We ship: cool leaf from Hack Club HQ
 		</p>
-		<Button text="Login with Slack" href="/auth/slack" />
-		<!-- <Button text="Submit" bgcolor="bg-amber-800" disabled /> -->
-		<!-- <p>(coming soon)</p> -->
+		{#if data.loggedIn}
+			<Button text="Go to dashboard" href="/dashboard" />
+		{:else}
+			<Button text="Login with Slack" href="/auth/slack" />
+		{/if}
 	</div>
 	<img
 		src={trafficLight}
