@@ -3,9 +3,9 @@
 	let { children, data } = $props();
 </script>
 
-<div class="box-border flex h-[100svh] flex-row">
+<div class="box-border flex h-[100svh] flex-row gap-5">
 	<Sidebar user={data.user} />
-	<div class="grow overflow-auto">
+	<div class="grow overflow-auto pt-10">
 		{@render children?.()}
 	</div>
 </div>
