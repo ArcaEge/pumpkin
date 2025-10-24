@@ -3,7 +3,13 @@ import { env } from '$env/dynamic/private';
 import { db } from '$lib/server/db/index.js';
 import { user } from '$lib/server/db/schema.js';
 import { eq } from 'drizzle-orm';
-import { SESSION_EXPIRY_DAYS, DAY_IN_MS, createSession, setSessionTokenCookie, generateSessionToken } from '$lib/server/auth.js';
+import {
+	SESSION_EXPIRY_DAYS,
+	DAY_IN_MS,
+	createSession,
+	setSessionTokenCookie,
+	generateSessionToken
+} from '$lib/server/auth.js';
 
 export async function GET(event) {
 	const url = event.url;
@@ -90,7 +96,10 @@ export async function GET(event) {
 
 	if (databaseUser) {
 		// Update user (update name and profile picture on login)
-		await db.update(user).set({ name: name, profilePicture: profilePic }).where(eq(user.id, slackID));
+		await db
+			.update(user)
+			.set({ name: name, profilePicture: profilePic, lastLoginAt: new Date(Date.now()) })
+			.where(eq(user.id, slackID));
 	} else {
 		// Create user
 		await db.insert(user).values({ id: slackID, name: name, profilePicture: profilePic });
@@ -98,7 +107,11 @@ export async function GET(event) {
 
 	const sessionToken = generateSessionToken();
 	const session = await createSession(sessionToken, slackID);
-	setSessionTokenCookie(event, sessionToken, new Date(Date.now() + DAY_IN_MS * SESSION_EXPIRY_DAYS))
+	setSessionTokenCookie(
+		event,
+		sessionToken,
+		new Date(Date.now() + DAY_IN_MS * SESSION_EXPIRY_DAYS)
+	);
 
 	let redirectURL = new URL(`${url.protocol}//${url.host}/dashboard`);
 	return redirect(302, redirectURL);

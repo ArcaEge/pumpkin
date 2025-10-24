@@ -7,6 +7,7 @@ export function load({ locals }) {
 
 	return {
 		user: {
+			id: locals.user.id,
 			name: locals.user.name,
 			profilePicture: locals.user.profilePicture,
 		}

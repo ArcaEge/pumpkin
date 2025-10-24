@@ -13,7 +13,7 @@
 
 <a
 	href={isExactMatch ? null : href}
-	class={`flex h-12 items-center justify-center gap-1.5 shadow-xl/3 transition-colors hover:bg-amber-700 hover:outline-amber-100 ${isCurrentPage ? 'bg-amber-700' : 'bg-amber-800'} ${exact ? '' : 'hover:outline-2'}`}
+	class={`flex h-12 items-center justify-center gap-1.5 shadow-xl/3 transition-colors hover:bg-amber-700 hover:outline-amber-100 ${isCurrentPage ? 'bg-amber-700' : 'bg-amber-800'} ${isExactMatch ? '' : 'hover:outline-2'}`}
 >
 	{#if icon}
 		{@const Icon = icon}

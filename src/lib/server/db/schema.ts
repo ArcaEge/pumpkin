@@ -1,10 +1,13 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const user = sqliteTable('user', {
-	id: text('id').primaryKey(),	// Slack ID
-	profilePicture: text('profilePicture').notNull(),	// Profile pic URL
-	name: text('name').notNull(),	// Username on Slack
-	// TODO: add date account created and date last login
+	id: text('id').primaryKey(), // Slack ID
+	profilePicture: text('profilePicture').notNull(), // Profile pic URL
+	name: text('name').notNull(), // Username on Slack
+	createdAt: integer('created_at', { mode: 'timestamp' }).notNull().default(new Date(Date.now())), // Account creation timestamp
+	lastLoginAt: integer('last_login_at', { mode: 'timestamp' })
+		.notNull()
+		.default(new Date(Date.now())) // Last login timestamp
 });
 
 export const session = sqliteTable('session', {
