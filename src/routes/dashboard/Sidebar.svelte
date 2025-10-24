@@ -11,10 +11,10 @@
 	<SidebarButton icon={Compass} href="/dashboard/explore">Explore</SidebarButton>
 	<SidebarButton icon={ShoppingCart} href="/dashboard/shop">Shop</SidebarButton>
 	<div class="grow"></div>
-	<div class="flex h-15 flex-row gap-3 bg-amber-900 shadow-xl/3">
-		<p>
-			<img src={user.profilePicture} alt="User profile pic" class="h-15" />
-		</p>
+	<div class="flex h-15 flex-row gap-3 bg-amber-900 shadow-xl/3 border-2 border-amber-800">
+		<div class="aspect-square">
+			<img src={user.profilePicture} alt="User profile pic" class="h-full aspect-square" />
+		</div>
 		<div class="flex grow flex-col justify-center">
 			<p>
 				{user.name}
