@@ -83,7 +83,7 @@ export async function GET(event) {
 		return redirect(302, redirectURL);
 	}
 
-	const slackID = openidConnectDataJSON['https://slack.com/user_id'];
+	const slackId = openidConnectDataJSON['https://slack.com/user_id'];
 	const profilePic = openidConnectDataJSON['picture'];
 	const name = openidConnectDataJSON['given_name'];
 
@@ -92,21 +92,28 @@ export async function GET(event) {
 	// https://hackatime.hackclub.com/api/v1/users/SLACK_ID/trust_factor
 
 	// Create user if doesn't exist
-	const databaseUser = await db.select().from(user).where(eq(user.id, slackID)).get();
-
+	let databaseUser = await db.select().from(user).where(eq(user.slackId, slackId)).get();
+	
 	if (databaseUser) {
-		// Update user (update name and profile picture on login)
+		// Update user (update name and profile picture and lastLoginAt on login)
 		await db
-			.update(user)
-			.set({ name: name, profilePicture: profilePic, lastLoginAt: new Date(Date.now()) })
-			.where(eq(user.id, slackID));
+		.update(user)
+		.set({ name: name, profilePicture: profilePic, lastLoginAt: new Date(Date.now()) })
+		.where(eq(user.slackId, slackId));
 	} else {
 		// Create user
-		await db.insert(user).values({ id: slackID, name: name, profilePicture: profilePic });
-	}
+		await db.insert(user).values({ slackId: slackId, name: name, profilePicture: profilePic });
 
+		databaseUser = await db.select().from(user).where(eq(user.slackId, slackId)).get();
+
+		if (!databaseUser) {
+			// Something went _really_ wrong
+			return error(500);
+		}
+	}
+		
 	const sessionToken = generateSessionToken();
-	const session = await createSession(sessionToken, slackID);
+	const session = await createSession(sessionToken, databaseUser.id);
 	setSessionTokenCookie(
 		event,
 		sessionToken,

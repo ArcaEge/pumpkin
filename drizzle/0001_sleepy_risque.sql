@@ -1,2 +1,0 @@
-ALTER TABLE `user` ADD `created_at` integer DEFAULT '"2025-10-24T14:06:52.052Z"' NOT NULL;--> statement-breakpoint
-ALTER TABLE `user` ADD `last_login_at` integer DEFAULT '"2025-10-24T14:06:52.052Z"' NOT NULL;

@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "e887d560-3b26-44b2-bbbe-8fc781766b8f",
-  "prevId": "41b53ece-031a-400a-b880-dda0490fafd5",
+  "id": "8f225053-447e-4b5b-b1de-6bcbef7ff51f",
+  "prevId": "0a53496e-4a72-43ac-a650-6de75cab98e1",
   "tables": {
     "session": {
       "name": "session",
@@ -16,7 +16,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -54,8 +54,15 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "slack_id": {
+          "name": "slack_id",
+          "type": "text",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
@@ -79,7 +86,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-10-24T14:06:52.052Z\"'"
+          "default": "'\"2025-10-24T14:49:14.618Z\"'"
         },
         "last_login_at": {
           "name": "last_login_at",
@@ -87,10 +94,18 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-10-24T14:06:52.052Z\"'"
+          "default": "'\"2025-10-24T14:49:14.618Z\"'"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "user_slack_id_unique": {
+          "name": "user_slack_id_unique",
+          "columns": [
+            "slack_id"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},

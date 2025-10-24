@@ -8,6 +8,7 @@ export function load({ locals }) {
 	return {
 		user: {
 			id: locals.user.id,
+			slackId: locals.user.slackId,
 			name: locals.user.name,
 			profilePicture: locals.user.profilePicture,
 		}
