@@ -10,7 +10,7 @@
 	<SidebarButton href="/dashboard/explore">Explore</SidebarButton>
 	<SidebarButton href="/dashboard/shop">Shop</SidebarButton>
 	<div class="grow"></div>
-	<div class="flex flex-row gap-3 bg-amber-900">
+	<div class="flex shadow-xl/3 flex-row gap-3 bg-amber-900">
 		<p>
 			<img src={user.profilePicture} alt="User profile pic" class="h-12" />
 		</p>

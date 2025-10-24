@@ -8,7 +8,7 @@
 
 <a
 	{href}
-	class={`flex h-12 items-center justify-center shadow-xl/5 bg-amber-800 transition-colors hover:bg-amber-900 hover:ring-2 hover:ring-amber-100 ${isCurrentPage ? 'bg-amber-900' : ''}`}
+	class={`flex h-12 items-center justify-center shadow-xl/3 bg-amber-800 transition-colors hover:bg-amber-900 hover:ring-2 hover:ring-amber-100 ${isCurrentPage ? 'bg-amber-900' : ''}`}
 >
 	{@render children?.()}
 </a>
