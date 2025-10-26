@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import Project from '$lib/components/Project.svelte';
 
 	let { data } = $props();
 </script>
@@ -11,8 +12,8 @@
 			<div>
 				<Button
 					text="Create project"
-					bgcolor="bg-amber-900"
-					bgcolor_hover="bg-amber-800"
+					bgcolor="bg-amber-800"
+					bgcolor_hover="bg-amber-700"
 					href="/dashboard/projects/create"
 				/>
 			</div>
@@ -33,9 +34,13 @@
 	{:else}
 		<div class="grid grid-cols-3 gap-5">
 			{#each data.projects as project}
-				<a class="bg-amber-950 p-3 transition-all border-3 border-dashed border-amber-900 shadow-lg/20 hover:scale-102" href={`/dashboard/projects/${project.id}`}>
-					<h1 class="text-xl font-semibold">{project.name}</h1>
-				</a>
+				<Project
+					id={project.id}
+					name={project.name}
+					description={project.description}
+					url={project.url}
+					createdAt={project.createdAt}
+				/>
 			{/each}
 		</div>
 	{/if}
