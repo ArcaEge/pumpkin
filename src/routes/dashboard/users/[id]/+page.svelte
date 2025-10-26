@@ -5,8 +5,8 @@
 	let { data } = $props();
 </script>
 
-<div class="flex flex-row gap-10">
-	<div class="flex w-1/4 flex-col gap-5">
+<div class="flex flex-row gap-10 h-full">
+	<div class="flex w-65 flex-col gap-5">
 		<div
 			class="flex flex-col items-center gap-2 border-3 border-dashed border-amber-900 bg-amber-950 p-5 shadow-lg/20"
 		>
@@ -45,10 +45,14 @@
 			</p>
 		</div>
 	</div>
-	<div class="mt-5 flex flex-col gap-5">
-		<h1 class="font-hero text-2xl font-medium">Activity</h1>
-		<div>
-            <p>Nothing yet :(</p>
-        </div>
+	<div class="flex grow flex-col">
+		<h1 class="mt-5 mb-3 font-hero text-2xl font-medium">Activity</h1>
+		<div class="flex grow items-center justify-center">
+			<div class="border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20">
+				<p>
+					Nothing yet :(
+				</p>
+			</div>
+		</div>
 	</div>
 </div>

@@ -85,7 +85,7 @@ export async function GET(event) {
 
 	const slackId = openidConnectDataJSON['https://slack.com/user_id'];
 	const profilePic = openidConnectDataJSON['picture'];
-	const name = openidConnectDataJSON['given_name'];
+	const name = openidConnectDataJSON['given_name']; // TODO: make this get the user's slack handle
 
 	// TODO: Check Hackatime API if they're banned and identity if they're verified
 	// https://identity.hackclub.com/api/external/check?slack_id=
@@ -93,13 +93,13 @@ export async function GET(event) {
 
 	// Create user if doesn't exist
 	let databaseUser = await db.select().from(user).where(eq(user.slackId, slackId)).get();
-	
+
 	if (databaseUser) {
 		// Update user (update name and profile picture and lastLoginAt on login)
 		await db
-		.update(user)
-		.set({ name: name, profilePicture: profilePic, lastLoginAt: new Date(Date.now()) })
-		.where(eq(user.slackId, slackId));
+			.update(user)
+			.set({ name: name, profilePicture: profilePic, lastLoginAt: new Date(Date.now()) })
+			.where(eq(user.slackId, slackId));
 	} else {
 		// Create user
 		await db.insert(user).values({ slackId: slackId, name: name, profilePicture: profilePic });
@@ -111,7 +111,7 @@ export async function GET(event) {
 			return error(500);
 		}
 	}
-		
+
 	const sessionToken = generateSessionToken();
 	await createSession(sessionToken, databaseUser.id);
 	setSessionTokenCookie(
