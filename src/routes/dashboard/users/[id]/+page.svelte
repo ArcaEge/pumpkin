@@ -1,6 +1,6 @@
 <script lang="ts">
 	import relativeDate from 'tiny-relative-date';
-	import { Calendar } from '@lucide/svelte';
+	import { Calendar, ExternalLink } from '@lucide/svelte';
 
 	let { data } = $props();
 </script>
@@ -16,7 +16,7 @@
 				class="aspect-square h-30 border-3 border-amber-800"
 			/>
 			<h1 class="text-2xl font-bold">{data.requestedUser.name}</h1>
-			<Calendar class="" />
+			<Calendar />
 			<div class="items-center text-center">
 				<p>
 					Joined <abbr title={`${data.requestedUser.createdAt.toUTCString()}`}>
@@ -36,13 +36,35 @@
 			class="flex flex-col items-center gap-2 border-3 border-dashed border-amber-900 bg-amber-950 p-5 shadow-lg/20"
 		>
 			<h1 class="text-xl font-semibold">Projects</h1>
-			<p>
-				No projects yet <img
-					src="https://emoji.slack-edge.com/T0266FRGM/heavysob/55bf09f6c9d93d08.png"
-					alt="heavysob"
-					class="inline h-5.5"
-				/>
-			</p>
+			{#if data.projects.length == 0}
+				<p>
+					No projects yet <img
+						src="https://emoji.slack-edge.com/T0266FRGM/heavysob/55bf09f6c9d93d08.png"
+						alt="heavysob"
+						class="inline h-5.5"
+					/>
+				</p>
+			{:else}
+				<div class="flex w-full flex-col gap-1">
+					{#each data.projects as project}
+						<div class="flex w-full flex-row gap-1">
+							<a
+								class="grow bg-amber-800 p-2 text-center outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2"
+								href={`/dashboard/projects/${project.id}`}
+							>
+								{project.name}
+							</a>
+							<a
+								class="bg-amber-900 p-2 text-center outline-amber-50 transition-colors hover:bg-amber-800 hover:outline-2"
+								href={project.url}
+								target="_blank"
+							>
+								<ExternalLink />
+							</a>
+						</div>
+					{/each}
+				</div>
+			{/if}
 		</div>
 	</div>
 	<div class="flex grow flex-col">

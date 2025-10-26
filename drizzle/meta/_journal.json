@@ -8,6 +8,13 @@
       "when": 1761433340791,
       "tag": "0000_aberrant_energizer",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1761507761267,
+      "tag": "0001_chubby_nuke",
+      "breakpoints": true
     }
   ]
 }

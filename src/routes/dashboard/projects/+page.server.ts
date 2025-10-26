@@ -14,10 +14,10 @@ export async function load({ locals }) {
 		projects: projects.map((project) => {
 			return {
 				id: project.id,
-                name: project.name,
-                description: project.description,
-                url: project.url,
-                createdAt: project.createdAt,
+				name: project.name,
+				description: project.description,
+				url: project.url,
+				createdAt: project.createdAt
 			};
 		})
 	};

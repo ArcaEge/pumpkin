@@ -20,7 +20,7 @@ export const session = sqliteTable('session', {
 });
 
 export const project = sqliteTable('project', {
-	id: text('id').primaryKey(),
+	id: integer('id').primaryKey(),
 	userId: integer('user_id')
 	.notNull()
 	.references(() => user.id),
