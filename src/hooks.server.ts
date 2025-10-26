@@ -1,4 +1,4 @@
-import type { Handle } from '@sveltejs/kit';
+import { redirect, type Handle } from '@sveltejs/kit';
 import * as auth from '$lib/server/auth';
 
 const handleAuth: Handle = async ({ event, resolve }) => {
@@ -7,6 +7,11 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	if (!sessionToken) {
 		event.locals.user = null;
 		event.locals.session = null;
+
+		if (routeRequiresAuth(event.route.id ? event.route.id : '')) {
+			return redirect(302, '/auth/slack');
+		}
+
 		return resolve(event);
 	}
 
@@ -20,7 +25,16 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 
 	event.locals.user = user;
 	event.locals.session = session;
+
+	if (routeRequiresAuth(event.route.id ? event.route.id : '') && !event.locals.user) {
+		return redirect(302, '/auth/slack');
+	}
+
 	return resolve(event);
 };
 
 export const handle: Handle = handleAuth;
+
+function routeRequiresAuth(route: string) {
+	return route.startsWith('/dashboard');
+}

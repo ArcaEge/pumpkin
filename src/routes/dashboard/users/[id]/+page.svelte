@@ -6,7 +6,7 @@
 </script>
 
 <div class="flex flex-row gap-10 h-full">
-	<div class="flex w-65 flex-col gap-5">
+	<div class="flex w-50 lg:w-65 flex-col gap-5">
 		<div
 			class="flex flex-col items-center gap-2 border-3 border-dashed border-amber-900 bg-amber-950 p-5 shadow-lg/20"
 		>

@@ -1,23 +1,42 @@
 <script lang="ts">
-	import Button from "$lib/components/Button.svelte";
+	import Button from '$lib/components/Button.svelte';
 
-
+	let { data } = $props();
 </script>
 
 <div class="flex h-full flex-col">
-    <div class="flex flex-row mt-5">
-        <h1 class="font-hero text-3xl font-medium grow">Projects</h1>
-        <a href="/dashboard/projects/create" class="h-full flex items-center px-3 bg-amber-900 transition-colors hover:bg-amber-800 hover:ring-2 ring-amber-50">Create project</a>
-    </div>
-	<div class="flex grow items-center justify-center">
-		<div>
-			<p class="border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20">
-				No projects yet <img
-					src="https://emoji.slack-edge.com/T0266FRGM/heavysob/55bf09f6c9d93d08.png"
-					alt="heavysob"
-					class="inline h-5.5"
+	<div class="flex">
+		<h1 class="mt-5 mb-3 grow font-hero text-3xl font-medium">Projects</h1>
+		<div class="flex flex-row">
+			<div>
+				<Button
+					text="Create project"
+					bgcolor="bg-amber-900"
+					bgcolor_hover="bg-amber-800"
+					href="/dashboard/projects/create"
 				/>
-			</p>
+			</div>
 		</div>
 	</div>
+	{#if data.projects.length == 0}
+		<div class="flex grow items-center justify-center">
+			<div>
+				<p class="border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20">
+					No projects yet <img
+						src="https://emoji.slack-edge.com/T0266FRGM/heavysob/55bf09f6c9d93d08.png"
+						alt="heavysob"
+						class="inline h-5.5"
+					/>
+				</p>
+			</div>
+		</div>
+	{:else}
+		<div class="grid grid-cols-3 gap-5">
+			{#each data.projects as project}
+				<a class="bg-amber-950 p-3 transition-all border-3 border-dashed border-amber-900 shadow-lg/20 hover:scale-102" href={`/dashboard/projects/${project.id}`}>
+					<h1 class="text-xl font-semibold">{project.name}</h1>
+				</a>
+			{/each}
+		</div>
+	{/if}
 </div>

@@ -1,6 +1,6 @@
 # leaf
 
-Fork of https://github.com/ArcaEge/traffic
+Continuation of last week's project: https://github.com/ArcaEge/traffic
 
 A template site for a mysterious Hack Club YSWS event, I'll be reusing the same site design but with different content.
 
