@@ -4,6 +4,16 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
+	ssr: {
+		// leave @libsql to be required at runtime by Node
+		external: ['@libsql/client']
+	},
+	build: {
+		rollupOptions: {
+			// also treat any @libsql/* imports as external during rollup
+			external: (id) => typeof id === 'string' && /^@libsql(\/|$)/.test(id)
+		}
+	},
 	server: {
 		host: true,
 		port: 5173,
@@ -13,7 +23,7 @@ export default defineConfig({
 		},
 		hmr: {
 			clientPort: 5173,
-			host: 'localhost',
+			host: 'localhost'
 		}
 	}
 });

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import trafficLight from '$lib/assets/traffic-light.png';
+	import leaf from '$lib/assets/leaf.png';
 
 	import Button from '$lib/components/Button.svelte';
 	import Accordion from '$lib/components/Accordion.svelte';
@@ -43,8 +43,8 @@
 		{/if}
 	</div>
 	<img
-		src={trafficLight}
-		alt="Traffic light CAD model"
+		src={leaf}
+		alt="Leaf CAD model"
 		class="h-100 drop-shadow-md transition-all hover:drop-shadow-2xl hover:drop-shadow-amber-600/10 active:hover:drop-shadow-amber-600/20 lg:ml-20"
 	/>
 </div>
@@ -53,12 +53,12 @@
 	<h1 class="mb-3 text-center text-3xl font-bold sm:text-4xl">What is this?</h1>
 	<div class="w-full max-w-2xl">
 		<p class="mt-3 max-w-2xl">
-			<strong>Ever wanted to own a traffic light?</strong> Now, you can do so! All you need to do is
-			spend 10 hours designing a traffic light in CAD and we'll send it to you, for free.
+			<strong>Ever wanted to own a cool leaf?</strong> Now, you can do so! All you need to do is spend
+			10 hours designing a leaf in CAD and we'll one to you from HQ Vermont, for free.
 		</p>
 		<p class="mt-3 max-w-2xl">
 			Once you submit, you'll be enrolled in the 2nd stage of the YSWS (coming sometime later),
-			where you'll design a control board for your traffic light using KiCAD.
+			where you'll genetically modify a tree to produce your exact leaf.
 		</p>
 	</div>
 </div>
@@ -78,7 +78,7 @@
 			</p>
 		</Accordion>
 		<Accordion text="What can I make?">
-			<p>Any sort of reasonable traffic light design is fine, get creative!</p>
+			<p>Any sort of reasonable autumn leaf design is fine, get creative!</p>
 		</Accordion>
 		<Accordion text="What are the requirements?">
 			<p>
@@ -86,8 +86,11 @@
 				Onshape-Wakatime.
 			</p>
 		</Accordion>
-		<Accordion text="Where did you get these traffic lights from?">
-			<p>Good question 😊. I will not elaborate further.</p>
+		<Accordion text="Where did you get these leaves from?">
+			<p>
+				We briefly stop cheesing, go outside, collect a few leaves, shove them in an envelope and
+				mail them to you.
+			</p>
 		</Accordion>
 	</div>
 </div>
