@@ -11,23 +11,25 @@
 		{relativeDate(data.project.createdAt)}
 	</abbr>
 </p>
-<div class="my-2 flex">
-	<a
-		class="relative z-2 flex flex-row gap-1 bg-amber-800 p-2 text-sm outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2"
-		href={data.project.url}
-		target="_blank"
-	>
-		<ExternalLink size={20} />
-		Link to project
-	</a>
-</div>
+{#if data.project.url && data.project.url.length > 0}
+	<div class="my-2 flex">
+		<a
+			class="relative z-2 flex flex-row gap-1 bg-amber-800 p-2 text-sm outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2"
+			href={data.project.url}
+			target="_blank"
+		>
+			<ExternalLink size={20} />
+			Link to project
+		</a>
+	</div>
+{/if}
 <p class="mt-1">{data.project.description}</p>
 
 {#if data.project.userId === data.user.id}
 	<div class="flex">
 		<a
 			href={`/dashboard/projects/${data.project.id}/delete`}
-			class="mt-3 text-sm flex cursor-pointer flex-row gap-1 bg-red-900 p-2 outline-red-50 transition-colors hover:bg-red-800 hover:outline-2"
+			class="mt-3 flex cursor-pointer flex-row gap-1 bg-red-900 p-2 text-sm outline-red-50 transition-colors hover:bg-red-800 hover:outline-2"
 		>
 			<Trash size={20} />
 			Delete

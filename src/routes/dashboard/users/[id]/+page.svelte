@@ -55,8 +55,8 @@
 								{project.name}
 							</a>
 							<a
-								class="bg-amber-900 p-2 text-center outline-amber-50 transition-colors hover:bg-amber-800 hover:outline-2"
-								href={project.url}
+								class={`bg-amber-900 p-2 text-center transition-colors ${project.url && project.url.length > 0 ? 'outline-amber-50 hover:bg-amber-800 hover:outline-2' : 'opacity-60'}`}
+								href={project.url && project.url.length > 0 ? project.url : null}
 								target="_blank"
 							>
 								<ExternalLink />
