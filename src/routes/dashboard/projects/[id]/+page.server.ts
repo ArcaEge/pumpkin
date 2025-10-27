@@ -15,6 +15,7 @@ export async function load({ params }) {
 	return {
 		project: {
 			id: queriedProject.id,
+			userId: queriedProject.userId,
 			name: queriedProject.name,
 			description: queriedProject.description,
 			url: queriedProject.url,
