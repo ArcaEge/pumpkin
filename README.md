@@ -2,6 +2,8 @@
 
 Continuation of last week's project: https://github.com/ArcaEge/traffic
 
+Thanks to @OneForFreedom for designing the CAD leaf
+
 A template site for a mysterious Hack Club YSWS event, I'll be reusing the same site design but with different content.
 
 <!-- The site is available at: https://traffic.arcaege.dev/ -->
