@@ -1,4 +1,4 @@
-# pumkin
+# pumpkin
 
 Continuation of last week's project: https://github.com/ArcaEge/leaf
 

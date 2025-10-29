@@ -40,7 +40,7 @@ export const actions = {
 		const queriedProject = await db.select().from(project).where(eq(project.id, id)).get();
 
 		if (queriedProject?.userId !== locals.user.id) {
-			throw error(403, "imagine");
+			throw error(403, "hehe get out");
 		}
 
 		await db.delete(project).where(eq(project.id, id));

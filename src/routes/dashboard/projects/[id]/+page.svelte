@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ExternalLink, Trash } from '@lucide/svelte';
+	import { SquarePen, ExternalLink, Trash } from '@lucide/svelte';
 	import relativeDate from 'tiny-relative-date';
 
 	let { data } = $props();
@@ -26,7 +26,14 @@
 <p class="mt-1">{data.project.description}</p>
 
 {#if data.project.userId === data.user.id}
-	<div class="flex">
+	<div class="flex gap-2">
+		<a
+			href={`/dashboard/projects/${data.project.id}/edit`}
+			class="mt-3 flex cursor-pointer flex-row gap-1 bg-amber-800 p-2 text-sm outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2"
+		>
+			<SquarePen size={20} />
+			Edit
+		</a>
 		<a
 			href={`/dashboard/projects/${data.project.id}/delete`}
 			class="mt-3 flex cursor-pointer flex-row gap-1 bg-red-900 p-2 text-sm outline-red-50 transition-colors hover:bg-red-800 hover:outline-2"
