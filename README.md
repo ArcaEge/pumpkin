@@ -1,8 +1,6 @@
-# leaf
+# pumkin
 
-Continuation of last week's project: https://github.com/ArcaEge/traffic
-
-Thanks to @OneForFreedom for designing the CAD leaf
+Continuation of last week's project: https://github.com/ArcaEge/leaf
 
 A template site for a mysterious Hack Club YSWS event, I'll be reusing the same site design but with different content.
 
