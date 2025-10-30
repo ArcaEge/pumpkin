@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db/index.js';
 import { user, project } from '$lib/server/db/schema.js';
 import { error } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 
 export async function load({ locals, params }) {
 	let id: number = parseInt(params.id);
@@ -12,7 +12,7 @@ export async function load({ locals, params }) {
 		throw error(404);
 	}
 
-	const projects = await db.select().from(project).where(eq(project.userId, id));
+	const projects = await db.select().from(project).where(and(eq(project.userId, id), eq(project.deleted, false)));
 
 	return {
 		requestedUser: {

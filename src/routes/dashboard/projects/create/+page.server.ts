@@ -19,14 +19,14 @@ export const actions = {
 		if (!(name && name.toString().length > 0 && name.toString().length < 80)) {
 			return fail(400, {
 				fields: { name, description, url },
-				invalid_name: true,
+				invalid_name: true
 			});
 		}
 
 		if (!(!description || description.toString().length < 1000)) {
 			return fail(400, {
 				fields: { name, description, url },
-				invalid_description: true,
+				invalid_description: true
 			});
 		}
 
@@ -44,8 +44,11 @@ export const actions = {
 				description: description?.toString(),
 				url: url?.toString(),
 				userId: locals.user.id,
-			}).returning();
-		
+				createdAt: new Date(Date.now()),
+				updatedAt: new Date(Date.now())
+			})
+			.returning();
+
 		return redirect(303, `/dashboard/projects/${addedProject.id}`);
 	}
 } satisfies Actions;

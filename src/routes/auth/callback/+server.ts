@@ -102,7 +102,15 @@ export async function GET(event) {
 			.where(eq(user.slackId, slackId));
 	} else {
 		// Create user
-		await db.insert(user).values({ slackId: slackId, name: name, profilePicture: profilePic });
+		await db
+			.insert(user)
+			.values({
+				slackId: slackId,
+				name: name,
+				profilePicture: profilePic,
+				createdAt: new Date(Date.now()),
+				lastLoginAt: new Date(Date.now())
+			});
 
 		databaseUser = await db.select().from(user).where(eq(user.slackId, slackId)).get();
 

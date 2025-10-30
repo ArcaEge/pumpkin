@@ -52,7 +52,8 @@ export const actions = {
 		await db
 			.update(project)
 			.set({
-				deleted: true
+				deleted: true,
+				updatedAt: new Date(Date.now()),
 			})
 			.where(
 				and(

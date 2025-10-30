@@ -6,7 +6,11 @@ import { eq, and } from 'drizzle-orm';
 export async function load({ params }) {
 	let id: number = parseInt(params.id);
 
-	const queriedProject = await db.select().from(project).where(and(eq(project.id, id), eq(project.deleted, false))).get();
+	const queriedProject = await db
+		.select()
+		.from(project)
+		.where(and(eq(project.id, id), eq(project.deleted, false)))
+		.get();
 
 	if (!queriedProject) {
 		throw error(404);
