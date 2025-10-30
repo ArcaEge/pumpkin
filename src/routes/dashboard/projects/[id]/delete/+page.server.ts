@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db/index.js';
 import { project } from '$lib/server/db/schema.js';
 import { error, redirect } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 import type { Actions } from './$types';
 
 export async function load({ params, locals }) {
@@ -11,14 +11,14 @@ export async function load({ params, locals }) {
 		throw error(500);
 	}
 
-	const queriedProject = await db.select().from(project).where(eq(project.id, id)).get();
+	const queriedProject = await db
+		.select()
+		.from(project)
+		.where(and(eq(project.id, id), eq(project.userId, locals.user.id), eq(project.deleted, false)))
+		.get();
 
 	if (!queriedProject) {
 		throw error(404);
-	}
-
-	if (queriedProject.userId !== locals.user.id) {
-		throw redirect(302, `/dashboard/projects/${id}`);
 	}
 
 	return {
@@ -37,13 +37,30 @@ export const actions = {
 
 		let id: number = parseInt(params.id);
 
-		const queriedProject = await db.select().from(project).where(eq(project.id, id)).get();
+		const queriedProject = await db
+			.select()
+			.from(project)
+			.where(
+				and(eq(project.id, id), eq(project.userId, locals.user.id), eq(project.deleted, false))
+			)
+			.get();
 
-		if (queriedProject?.userId !== locals.user.id) {
-			throw error(403, 'hehe get out');
+		if (!queriedProject) {
+			throw error(404);
 		}
 
-		await db.delete(project).where(eq(project.id, id));
+		await db
+			.update(project)
+			.set({
+				deleted: true
+			})
+			.where(
+				and(
+					eq(project.id, queriedProject.id),
+					eq(project.userId, locals.user.id),
+					eq(project.deleted, false)
+				)
+			);
 
 		return redirect(303, '/dashboard/projects');
 	}

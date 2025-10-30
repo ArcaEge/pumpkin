@@ -12,14 +12,14 @@ export async function load({ params, locals }) {
 		throw error(500);
 	}
 
-	const queriedProject = await db.select().from(project).where(eq(project.id, id)).get();
+	const queriedProject = await db
+		.select()
+		.from(project)
+		.where(and(eq(project.id, id), eq(project.userId, locals.user.id), eq(project.deleted, false)))
+		.get();
 
 	if (!queriedProject) {
 		throw error(404);
-	}
-
-	if (queriedProject.userId !== locals.user.id) {
-		throw redirect(302, `/dashboard/projects/${id}`);
 	}
 
 	return {
@@ -40,10 +40,16 @@ export const actions = {
 
 		let id: number = parseInt(params.id);
 
-		const queriedProject = await db.select().from(project).where(eq(project.id, id)).get();
+		const queriedProject = await db
+			.select()
+			.from(project)
+			.where(
+				and(eq(project.id, id), eq(project.userId, locals.user.id), eq(project.deleted, false))
+			)
+			.get();
 
-		if (queriedProject?.userId !== locals.user.id) {
-			throw error(403, 'hehe get out');
+		if (!queriedProject) {
+			throw error(404);
 		}
 
 		const data = await request.formData();
@@ -80,7 +86,13 @@ export const actions = {
 				description: description?.toString(),
 				url: url?.toString()
 			})
-			.where(and(eq(project.id, queriedProject.id), eq(project.userId, locals.user.id))); // Don't need to check user id but eh extra security can't hurt
+			.where(
+				and(
+					eq(project.id, queriedProject.id),
+					eq(project.userId, locals.user.id),
+					eq(project.deleted, false)
+				)
+			); // Don't need to check user id but eh extra security can't hurt
 
 		return redirect(303, `/dashboard/projects/${queriedProject.id}`);
 	}
