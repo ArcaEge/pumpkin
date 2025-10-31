@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db/index.js';
-import { project } from '$lib/server/db/schema.js';
+import { project, devlog } from '$lib/server/db/schema.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { isValidUrl } from '$lib/utils';
 import type { Actions } from './$types';
@@ -7,6 +7,7 @@ import { and, eq } from 'drizzle-orm';
 
 export async function load({ params, locals }) {
 	let id: number = parseInt(params.id);
+	let devlogId: number = parseInt(params.devlog_id);
 
 	if (!locals.user) {
 		throw error(500);
@@ -22,12 +23,24 @@ export async function load({ params, locals }) {
 		throw error(404);
 	}
 
+	const queriedDevlog = await db
+		.select()
+		.from(devlog)
+		.where(
+			and(eq(devlog.id, devlogId), eq(devlog.userId, locals.user.id), eq(devlog.deleted, false))
+		)
+		.get();
+
+	if (!queriedDevlog) {
+		throw error(404);
+	}
+
 	return {
-		project: {
-			id: queriedProject.id,
-			name: queriedProject.name,
-			description: queriedProject.description,
-			url: queriedProject.url
+		devlog: {
+			id: queriedDevlog.id,
+			description: queriedDevlog.description,
+			timeSpent: queriedDevlog.timeSpent,
+			createdAt: queriedDevlog.createdAt
 		}
 	};
 }
@@ -39,6 +52,7 @@ export const actions = {
 		}
 
 		let id: number = parseInt(params.id);
+		let devlogId: number = parseInt(params.devlog_id);
 
 		const queriedProject = await db
 			.select()
@@ -52,49 +66,42 @@ export const actions = {
 			throw error(404);
 		}
 
-		const data = await request.formData();
+		const queriedDevlog = await db
+			.select()
+			.from(devlog)
+			.where(
+				and(eq(devlog.id, devlogId), eq(devlog.userId, locals.user.id), eq(devlog.deleted, false))
+			)
+			.get();
 
-		const name = data.get('name');
-		const description = data.get('description');
-		const url = data.get('url');
-
-		if (!(name && name.toString().trim().length > 0 && name.toString().trim().length < 80)) {
-			return fail(400, {
-				fields: { name, description, url },
-				invalid_name: true
-			});
+		if (!queriedDevlog) {
+			throw error(404);
 		}
 
-		if (!(!description || description.toString().trim().length < 1000)) {
+		const data = await request.formData();
+		const description = data.get('description');
+
+		if (
+			!description ||
+			description.toString().trim().length < 20 ||
+			description.toString().trim().length > 1000
+		) {
 			return fail(400, {
-				fields: { name, description, url },
+				fields: { description },
 				invalid_description: true
 			});
 		}
 
-		if (!(!url || (url.toString().trim().length < 8000 && isValidUrl(url.toString().trim())))) {
-			return fail(400, {
-				fields: { name, description, url },
-				invalid_url: true
-			});
-		}
-
 		await db
-			.update(project)
+			.update(devlog)
 			.set({
-				name: name.toString().trim(),
-				description: description?.toString().trim(),
-				url: url?.toString().trim(),
+				description: description.toString(),
 				updatedAt: new Date(Date.now())
 			})
 			.where(
-				and(
-					eq(project.id, queriedProject.id),
-					eq(project.userId, locals.user.id),
-					eq(project.deleted, false)
-				)
-			); // Don't need to check user id but eh extra security can't hurt
+				and(eq(devlog.id, devlogId), eq(devlog.userId, locals.user.id), eq(devlog.deleted, false))
+			);
 
-		return redirect(303, `/dashboard/projects/${queriedProject.id}`);
+		return redirect(303, `/dashboard/projects/${id}`);
 	}
 } satisfies Actions;
