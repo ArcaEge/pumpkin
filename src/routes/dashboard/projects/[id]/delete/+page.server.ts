@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db/index.js';
-import { project } from '$lib/server/db/schema.js';
+import { devlog, project } from '$lib/server/db/schema.js';
 import { error, redirect } from '@sveltejs/kit';
 import { eq, and } from 'drizzle-orm';
 import type { Actions } from './$types';
@@ -53,7 +53,7 @@ export const actions = {
 			.update(project)
 			.set({
 				deleted: true,
-				updatedAt: new Date(Date.now()),
+				updatedAt: new Date(Date.now())
 			})
 			.where(
 				and(
@@ -62,6 +62,10 @@ export const actions = {
 					eq(project.deleted, false)
 				)
 			);
+
+		await db.update(devlog).set({
+			deleted: true,
+		});
 
 		return redirect(303, '/dashboard/projects');
 	}

@@ -1,15 +1,15 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "ca773eb9-1cc3-4450-b37d-c6965a416433",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "5ac726df-2556-4e2a-8e64-26d3dd3fe4c2",
+  "prevId": "ca773eb9-1cc3-4450-b37d-c6965a416433",
   "tables": {
     "devlog": {
       "name": "devlog",
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -143,7 +143,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-10-30T23:10:30.599Z\"'"
+          "default": "'\"2025-10-30T23:17:46.232Z\"'"
         },
         "updated_at": {
           "name": "updated_at",
@@ -151,7 +151,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-10-30T23:10:30.599Z\"'"
+          "default": "'\"2025-10-30T23:17:46.232Z\"'"
         }
       },
       "indexes": {},
@@ -179,7 +179,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -389,7 +389,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -475,7 +475,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -634,7 +634,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-10-30T23:10:30.598Z\"'"
+          "default": "'\"2025-10-30T23:17:46.231Z\"'"
         },
         "last_login_at": {
           "name": "last_login_at",
@@ -642,7 +642,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-10-30T23:10:30.598Z\"'"
+          "default": "'\"2025-10-30T23:17:46.231Z\"'"
         }
       },
       "indexes": {

@@ -20,8 +20,10 @@ export const user = sqliteTable('user', {
 	hasT1Review: integer('has_t1_review', { mode: 'boolean' }).notNull().default(false), // Has access to t1 review
 	hasT2Review: integer('has_t2_review', { mode: 'boolean' }).notNull().default(false), // Has access to t2 review
 
-	createdAt: integer('created_at', { mode: 'timestamp' }).notNull().default(new Date(Date.now())), // Account creation timestamp
-	lastLoginAt: integer('last_login_at', { mode: 'timestamp' })
+	createdAt: integer('created_at', { mode: 'timestamp_ms' })
+		.notNull()
+		.default(new Date(Date.now())), // Account creation timestamp
+	lastLoginAt: integer('last_login_at', { mode: 'timestamp_ms' })
 		.notNull()
 		.default(new Date(Date.now())) // Last login timestamp
 });
@@ -31,7 +33,7 @@ export const session = sqliteTable('session', {
 	userId: integer('user_id')
 		.notNull()
 		.references(() => user.id),
-	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
+	expiresAt: integer('expires_at', { mode: 'timestamp_ms' }).notNull()
 });
 
 // TODO: implement this
@@ -41,7 +43,7 @@ export const sessionAuditLog = sqliteTable('session_audit_log', {
 		.notNull()
 		.references(() => user.id),
 	type: text('type', { enum: ['login', 'logout', 'session_expire'] }).notNull(),
-	timestamp: integer('timestamp', { mode: 'timestamp' }).notNull()
+	timestamp: integer('timestamp', { mode: 'timestamp_ms' }).notNull()
 });
 
 export const project = sqliteTable('project', {
@@ -69,13 +71,15 @@ export const project = sqliteTable('project', {
 		.default('building'),
 	deleted: integer('deleted', { mode: 'boolean' }).notNull().default(false), // Projects aren't actually deleted, just marked as deleted (I cba to deal with foreign key delete issues for audit logs)
 
-	createdAt: integer('created_at', { mode: 'timestamp' }).notNull().default(new Date(Date.now())),
-	updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().default(new Date(Date.now()))
+	createdAt: integer('created_at', { mode: 'timestamp_ms' })
+		.notNull()
+		.default(new Date(Date.now())),
+	updatedAt: integer('updated_at', { mode: 'timestamp_ms' }).notNull().default(new Date(Date.now()))
 });
 
 // TODO: implement this
 export const projectAuditLog = sqliteTable('project_audit_log', {
-	id: text('id').primaryKey(),
+	id: integer('id').primaryKey(),
 	userId: integer('user_id')
 		.notNull()
 		.references(() => user.id), // Project owner
@@ -91,13 +95,13 @@ export const projectAuditLog = sqliteTable('project_audit_log', {
 	description: text('description'),
 	url: text('url'),
 
-	timestamp: integer('timestamp', { mode: 'timestamp' }).notNull()
+	timestamp: integer('timestamp', { mode: 'timestamp_ms' }).notNull()
 });
 
 // T1 review: approve/reject
 // TODO: implement this
 export const t1Review = sqliteTable('t1_review', {
-	id: text('id').primaryKey(),
+	id: integer('id').primaryKey(),
 	userId: integer('user_id')
 		.notNull()
 		.references(() => user.id),
@@ -109,12 +113,12 @@ export const t1Review = sqliteTable('t1_review', {
 	notes: text('notes'),
 	action: text('action', { enum: ['approve', 'reject', 'reject_lock'] }).notNull(),
 
-	timestamp: integer('timestamp', { mode: 'timestamp' }).notNull()
+	timestamp: integer('timestamp', { mode: 'timestamp_ms' }).notNull()
 });
 
 // TODO: implement this
 export const t2Review = sqliteTable('t2_review', {
-	id: text('id').primaryKey(),
+	id: integer('id').primaryKey(),
 	userId: integer('user_id')
 		.notNull()
 		.references(() => user.id),
@@ -126,12 +130,11 @@ export const t2Review = sqliteTable('t2_review', {
 	notes: text('notes'),
 	multiplier: real('multiplier').notNull().default(1.0),
 
-	timestamp: integer('timestamp', { mode: 'timestamp' }).notNull()
+	timestamp: integer('timestamp', { mode: 'timestamp_ms' }).notNull()
 });
 
-// TODO: implement this
 export const devlog = sqliteTable('devlog', {
-	id: text('id').primaryKey(),
+	id: integer('id').primaryKey(),
 	userId: integer('user_id').references(() => user.id),
 	projectId: integer('project_id')
 		.notNull()
@@ -140,7 +143,9 @@ export const devlog = sqliteTable('devlog', {
 	description: text('description').notNull(),
 	timeSpent: integer('time_spent').notNull(), // Time spent in mins
 
-	timestamp: integer('timestamp', { mode: 'timestamp' }).notNull()
+	deleted: integer('deleted', { mode: 'boolean' }).notNull().default(false), // Works the same as project deletion
+	createdAt: integer('created_at', { mode: 'timestamp_ms' }).notNull(),
+	updatedAt: integer('updated_at', { mode: 'timestamp_ms' }).notNull()
 });
 
 export type Session = typeof session.$inferSelect;

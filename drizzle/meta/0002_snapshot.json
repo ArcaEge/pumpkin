@@ -1,15 +1,15 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "ca773eb9-1cc3-4450-b37d-c6965a416433",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "d90e3915-2575-4265-808d-947071f2380c",
+  "prevId": "5ac726df-2556-4e2a-8e64-26d3dd3fe4c2",
   "tables": {
     "devlog": {
       "name": "devlog",
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -42,8 +42,23 @@
           "notNull": true,
           "autoincrement": false
         },
-        "timestamp": {
-          "name": "timestamp",
+        "deleted": {
+          "name": "deleted",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -143,7 +158,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-10-30T23:10:30.599Z\"'"
+          "default": "'\"2025-10-31T01:05:51.417Z\"'"
         },
         "updated_at": {
           "name": "updated_at",
@@ -151,7 +166,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-10-30T23:10:30.599Z\"'"
+          "default": "'\"2025-10-31T01:05:51.417Z\"'"
         }
       },
       "indexes": {},
@@ -179,7 +194,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -389,7 +404,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -475,7 +490,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -634,7 +649,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-10-30T23:10:30.598Z\"'"
+          "default": "'\"2025-10-31T01:05:51.416Z\"'"
         },
         "last_login_at": {
           "name": "last_login_at",
@@ -642,7 +657,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-10-30T23:10:30.598Z\"'"
+          "default": "'\"2025-10-31T01:05:51.416Z\"'"
         }
       },
       "indexes": {
@@ -665,7 +680,9 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"devlog\".\"timestamp\"": "\"devlog\".\"created_at\""
+    }
   },
   "internal": {
     "indexes": {}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
 
-	let { data, form }: PageProps = $props();
+	let { form }: PageProps = $props();
 </script>
 
 <h1 class="mt-5 mb-3 font-hero text-2xl font-medium">Create project</h1>
@@ -19,7 +19,7 @@
 			/>
 		</label>
 		{#if form?.invalid_name}
-			<p>Invalid name, must be between 1 and 80 characters</p>
+			<p class="text-sm">Invalid name, must be between 1 and 80 characters</p>
 		{/if}
 	</div>
 	<div>
@@ -33,7 +33,7 @@
 			>
 		</label>
 		{#if form?.invalid_description}
-			<p>Invalid description, must be at most 8000 characters</p>
+			<p class="text-sm">Invalid description, must be at most 1000 characters</p>
 		{/if}
 	</div>
 	<div>
@@ -48,7 +48,7 @@
 			/>
 		</label>
 		{#if form?.invalid_url}
-			<p>Invalid URL</p>
+			<p class="text-sm">Invalid URL</p>
 		{/if}
 	</div>
 	<button
