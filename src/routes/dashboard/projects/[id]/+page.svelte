@@ -30,6 +30,11 @@
 	Created <abbr title={`${data.project.createdAt.toUTCString()}`}>
 		{relativeDate(data.project.createdAt)}
 	</abbr>
+	∙ Updated
+	<abbr title={`${new Date(data.project.lastUpdated).toUTCString()}`}>
+		{relativeDate(data.project.lastUpdated)}
+	</abbr>
+	∙ {Math.floor(data.project.timeSpent/60)}h {data.project.timeSpent % 60}min
 </p>
 {#if data.project.url && data.project.url.length > 0}
 	<div class="my-2 flex">
@@ -157,7 +162,11 @@
 		</div>
 	{:else}
 		{#each sortDevlogsAscending ? [...data.devlogs].reverse() : data.devlogs as devlog}
-			<Devlog {devlog} projectId={data.project.id} showModifyButtons={data.project.userId == data.user.id} />
+			<Devlog
+				{devlog}
+				projectId={data.project.id}
+				showModifyButtons={data.project.userId == data.user.id}
+			/>
 		{/each}
 	{/if}
 </div>

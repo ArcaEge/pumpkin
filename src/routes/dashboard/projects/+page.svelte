@@ -40,6 +40,7 @@
 					description={project.description}
 					url={project.url}
 					createdAt={project.createdAt}
+					timeSpent={project.timeSpent}
 				/>
 			{/each}
 		</div>

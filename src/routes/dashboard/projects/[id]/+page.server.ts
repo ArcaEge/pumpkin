@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db/index.js';
 import { devlog, project } from '$lib/server/db/schema.js';
 import { error, fail } from '@sveltejs/kit';
-import { eq, and, desc } from 'drizzle-orm';
+import { eq, and, desc, sum, sql } from 'drizzle-orm';
 import type { Actions } from './$types';
 
 const DEVLOG_MIN_TIME = 5;
@@ -11,9 +11,19 @@ export async function load({ params }) {
 	let id: number = parseInt(params.id);
 
 	const queriedProject = await db
-		.select()
+		.select({
+			project: project,
+			timeSpent: sql<number>`COALESCE(SUM(${devlog.timeSpent}), 0)`,
+			lastUpdated: sql<Date>`CASE
+      WHEN MAX(${devlog.createdAt}) IS NULL THEN ${project.updatedAt}
+      WHEN MAX(${devlog.createdAt}) > ${project.updatedAt} THEN MAX(${devlog.createdAt})
+      ELSE ${project.updatedAt}
+    END`
+		})
 		.from(project)
+		.leftJoin(devlog, and(eq(project.id, devlog.projectId), eq(devlog.deleted, false)))
 		.where(and(eq(project.id, id), eq(project.deleted, false)))
+		.groupBy(project.id)
 		.get();
 
 	if (!queriedProject) {
@@ -23,17 +33,19 @@ export async function load({ params }) {
 	const devlogs = await db
 		.select()
 		.from(devlog)
-		.where(and(eq(devlog.projectId, queriedProject.id), eq(devlog.deleted, false)))
+		.where(and(eq(devlog.projectId, queriedProject.project.id), eq(devlog.deleted, false)))
 		.orderBy(desc(devlog.createdAt));
 
 	return {
 		project: {
-			id: queriedProject.id,
-			userId: queriedProject.userId,
-			name: queriedProject.name,
-			description: queriedProject.description,
-			url: queriedProject.url,
-			createdAt: queriedProject.createdAt
+			id: queriedProject.project.id,
+			userId: queriedProject.project.userId,
+			name: queriedProject.project.name,
+			description: queriedProject.project.description,
+			url: queriedProject.project.url,
+			createdAt: queriedProject.project.createdAt,
+			timeSpent: queriedProject.timeSpent,
+			lastUpdated: queriedProject.lastUpdated
 		},
 		devlogs: devlogs.map((devlog) => {
 			return {

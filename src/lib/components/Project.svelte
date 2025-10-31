@@ -2,7 +2,7 @@
 	import { ExternalLink } from '@lucide/svelte';
 	import relativeDate from 'tiny-relative-date';
 
-	let { id, name, description, url, createdAt } = $props();
+	let { id, name, description, url, createdAt, timeSpent } = $props();
 </script>
 
 <div
@@ -29,5 +29,6 @@
 		Created <abbr title={`${createdAt.toUTCString()}`} class="relative z-2">
 			{relativeDate(createdAt)}
 		</abbr>
+		∙ {Math.floor(timeSpent / 60)}h {timeSpent % 60}min
 	</p>
 </div>
