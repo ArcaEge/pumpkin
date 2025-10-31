@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db/index.js';
 import { devlog, project } from '$lib/server/db/schema.js';
-import { error, fail, redirect } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 import { eq, and, desc } from 'drizzle-orm';
 import type { Actions } from './$types';
 
@@ -20,7 +20,8 @@ export async function load({ params }) {
 	const devlogs = await db
 		.select()
 		.from(devlog)
-		.where(and(eq(devlog.projectId, queriedProject.id), eq(devlog.deleted, false)));
+		.where(and(eq(devlog.projectId, queriedProject.id), eq(devlog.deleted, false)))
+		.orderBy(desc(devlog.createdAt));
 
 	return {
 		project: {
@@ -75,6 +76,8 @@ export const actions = {
 				invalid_description: true
 			});
 		}
+
+		// TODO: check if the time makes sense
 
 		await db.insert(devlog).values({
 			userId: locals.user.id,

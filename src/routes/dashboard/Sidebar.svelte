@@ -12,7 +12,7 @@
 </script>
 
 <div
-	class="m-5 flex w-60 flex-col gap-2 border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20"
+	class="m-5 flex w-60 flex-none flex-col gap-2 border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20"
 >
 	<SidebarButton icon={House} href="/dashboard" exact>Home</SidebarButton>
 	<SidebarButton icon={PencilRuler} href="/dashboard/projects">Projects</SidebarButton>

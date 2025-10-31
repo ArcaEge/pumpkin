@@ -64,7 +64,7 @@ export const actions = {
 			);
 
 		await db.update(devlog).set({
-			deleted: true,
+			deleted: true
 		});
 
 		return redirect(303, '/dashboard/projects');

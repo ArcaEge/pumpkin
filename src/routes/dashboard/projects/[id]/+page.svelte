@@ -2,6 +2,7 @@
 	import { SquarePen, ExternalLink, Trash } from '@lucide/svelte';
 	import relativeDate from 'tiny-relative-date';
 	import type { PageProps } from './$types';
+	import { dev } from '$app/environment';
 
 	let { data, form }: PageProps = $props();
 </script>
@@ -69,13 +70,32 @@
 	</form>
 {/if}
 
-<div class="mt-6 flex flex-col gap-3">
+<div class="mt-6 mb-5 flex flex-col gap-3">
 	<h2 class="text-2xl font-semibold">Devlogs</h2>
 	{#each data.devlogs as devlog}
 		<div
-			class="relative border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20 transition-all"
+			class="relative flex flex-col border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20 transition-all"
 		>
-			{devlog.description}
+			<p class="mb-0.5 text-sm opacity-90">
+				<abbr title={`${devlog.createdAt.toUTCString()}`}>
+					{relativeDate(devlog.createdAt)}
+				</abbr>
+				∙ {devlog.timeSpent} minutes
+			</p>
+			<p>
+				{devlog.description}
+			</p>
+			{#if data.project.userId == data.user.id}
+				<div class="flex">
+					<a
+						href={`/dashboard/projects/${data.project.id}/devlog/${devlog.id}/delete`}
+						class="mt-1 flex cursor-pointer flex-row gap-1 bg-red-900 p-2 text-sm outline-red-50 transition-colors hover:bg-red-800 hover:outline-2"
+					>
+						<Trash size={20} />
+						Delete
+					</a>
+				</div>
+			{/if}
 		</div>
 	{/each}
 	{#if data.devlogs.length == 0}

@@ -85,7 +85,7 @@ export const actions = {
 				name: name.toString().trim(),
 				description: description?.toString().trim(),
 				url: url?.toString().trim(),
-				updatedAt: new Date(Date.now()),
+				updatedAt: new Date(Date.now())
 			})
 			.where(
 				and(
