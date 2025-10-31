@@ -46,7 +46,7 @@
 		</a>
 	</div>
 
-	<h3 class="mt-6 mb-1 text-xl font-semibold">Add devlog</h3>
+	<h3 class="mt-6 mb-1 text-xl font-semibold">Add entry</h3>
 	<form method="POST" class="flex flex-col gap-3">
 		<div>
 			<label class="flex flex-col gap-1">
@@ -66,19 +66,19 @@
 			type="submit"
 			class="cursor-pointer bg-amber-800 p-2 outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-3"
 		>
-			Devlog!
+			Add journal entry!
 		</button>
 	</form>
 {/if}
 
 <div class="mt-6 mb-5 flex flex-col gap-3">
 	<div>
-		<h2 class="text-2xl font-semibold">Devlogs</h2>
+		<h2 class="text-2xl font-semibold">Journal entries</h2>
 		{#if data.devlogs.length > 0}
-			<div class="flex mt-1.5">
+			<div class="mt-1.5 flex">
 				<select
 					bind:value={sortDropdownValue}
-					class="border-3 border-dashed border-amber-900 bg-amber-950 fill-amber-50 ring-amber-900 placeholder:text-amber-900 active:ring-3"
+					class="border-3 border-dashed border-amber-900 bg-amber-950 fill-amber-50 text-sm ring-amber-900 placeholder:text-amber-900 active:ring-3"
 				>
 					<option value="descending">New to old</option>
 					<option value="ascending">Old to new</option>
