@@ -2,9 +2,10 @@
 	import { SquarePen, ExternalLink, Trash } from '@lucide/svelte';
 	import relativeDate from 'tiny-relative-date';
 	import type { PageProps } from './$types';
-	import { dev } from '$app/environment';
 
 	let { data, form }: PageProps = $props();
+	let sortDropdownValue = $state('descending');
+	let sortDevlogsAscending = $derived.by(() => sortDropdownValue == 'ascending');
 </script>
 
 <h1 class="mt-5 mb-2 font-hero text-3xl font-medium">{data.project.name}</h1>
@@ -71,33 +72,21 @@
 {/if}
 
 <div class="mt-6 mb-5 flex flex-col gap-3">
-	<h2 class="text-2xl font-semibold">Devlogs</h2>
-	{#each data.devlogs as devlog}
-		<div
-			class="relative flex flex-col border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20 transition-all"
-		>
-			<p class="mb-0.5 text-sm opacity-90">
-				<abbr title={`${devlog.createdAt.toUTCString()}`}>
-					{relativeDate(devlog.createdAt)}
-				</abbr>
-				∙ {devlog.timeSpent} minutes
-			</p>
-			<p>
-				{devlog.description}
-			</p>
-			{#if data.project.userId == data.user.id}
-				<div class="flex">
-					<a
-						href={`/dashboard/projects/${data.project.id}/devlog/${devlog.id}/delete`}
-						class="mt-1 flex cursor-pointer flex-row gap-1 bg-red-900 p-2 text-sm outline-red-50 transition-colors hover:bg-red-800 hover:outline-2"
-					>
-						<Trash size={20} />
-						Delete
-					</a>
-				</div>
-			{/if}
-		</div>
-	{/each}
+	<div>
+		<h2 class="text-2xl font-semibold">Devlogs</h2>
+		{#if data.devlogs.length > 0}
+			<div class="flex mt-1.5">
+				<select
+					bind:value={sortDropdownValue}
+					class="border-3 border-dashed border-amber-900 bg-amber-950 fill-amber-50 ring-amber-900 placeholder:text-amber-900 active:ring-3"
+				>
+					<option value="descending">New to old</option>
+					<option value="ascending">Old to new</option>
+				</select>
+			</div>
+		{/if}
+	</div>
+
 	{#if data.devlogs.length == 0}
 		<div>
 			No devlogs yet <img
@@ -106,5 +95,39 @@
 				class="inline h-5.5"
 			/>
 		</div>
+	{:else}
+		{#each sortDevlogsAscending ? [...data.devlogs].reverse() : data.devlogs as devlog}
+			<div
+				class="relative flex flex-col border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20 transition-all"
+			>
+				<p class="mb-0.5 text-sm opacity-90">
+					<abbr title={`${devlog.createdAt.toUTCString()}`}>
+						{relativeDate(devlog.createdAt)}
+					</abbr>
+					∙ {devlog.timeSpent} minutes
+				</p>
+				<p>
+					{devlog.description}
+				</p>
+				{#if data.project.userId == data.user.id}
+					<div class="mt-1 flex flex-row gap-1">
+						<a
+							href={`/dashboard/projects/${data.project.id}/edit`}
+							class="flex cursor-pointer flex-row gap-1 bg-amber-800 p-1.5 text-xs outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2"
+						>
+							<SquarePen size={16} />
+							Edit
+						</a>
+						<a
+							href={`/dashboard/projects/${data.project.id}/devlog/${devlog.id}/delete`}
+							class="flex cursor-pointer flex-row gap-1 bg-red-900 p-1.5 text-xs outline-red-50 transition-colors hover:bg-red-800 hover:outline-2"
+						>
+							<Trash size={16} />
+							Delete
+						</a>
+					</div>
+				{/if}
+			</div>
+		{/each}
 	{/if}
 </div>
