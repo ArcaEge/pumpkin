@@ -67,8 +67,8 @@ export const actions = {
 
 		if (
 			!description ||
-			description.toString().length < 20 ||
-			description.toString().length > 1000
+			description.toString().trim().length < 20 ||
+			description.toString().trim().length > 1000
 		) {
 			return fail(400, {
 				fields: { description },
@@ -79,7 +79,7 @@ export const actions = {
 		await db.insert(devlog).values({
 			userId: locals.user.id,
 			projectId: queriedProject.id,
-			description: description.toString(),
+			description: description.toString().trim(),
 			timeSpent: 60,
 			createdAt: new Date(Date.now()),
 			updatedAt: new Date(Date.now())

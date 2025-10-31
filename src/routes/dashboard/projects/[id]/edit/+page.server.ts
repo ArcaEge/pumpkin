@@ -58,21 +58,21 @@ export const actions = {
 		const description = data.get('description');
 		const url = data.get('url');
 
-		if (!(name && name.toString().length > 0 && name.toString().length < 80)) {
+		if (!(name && name.toString().trim().length > 0 && name.toString().trim().length < 80)) {
 			return fail(400, {
 				fields: { name, description, url },
 				invalid_name: true
 			});
 		}
 
-		if (!(!description || description.toString().length < 1000)) {
+		if (!(!description || description.toString().trim().length < 1000)) {
 			return fail(400, {
 				fields: { name, description, url },
 				invalid_description: true
 			});
 		}
 
-		if (!(!url || (url.toString().length < 8000 && isValidUrl(url.toString())))) {
+		if (!(!url || (url.toString().trim().length < 8000 && isValidUrl(url.toString().trim())))) {
 			return fail(400, {
 				fields: { name, description, url },
 				invalid_url: true
@@ -82,9 +82,9 @@ export const actions = {
 		await db
 			.update(project)
 			.set({
-				name: name.toString(),
-				description: description?.toString(),
-				url: url?.toString(),
+				name: name.toString().trim(),
+				description: description?.toString().trim(),
+				url: url?.toString().trim(),
 				updatedAt: new Date(Date.now()),
 			})
 			.where(
