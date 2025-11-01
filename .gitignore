@@ -25,5 +25,5 @@ vite.config.ts.timestamp-*
 # SQLite
 *.db
 
-uploads/images/*
-uploads/models/*
+uploads/images/*-*.*
+uploads/models/*-*.*

@@ -12,7 +12,7 @@
 </script>
 
 <div
-	class="m-5 flex w-60 flex-none flex-col gap-2 border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20"
+	class="m-5 flex w-60 2xl:w-70 flex-none flex-col gap-2 border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20"
 >
 	<SidebarButton icon={House} href="/dashboard" exact>Home</SidebarButton>
 	<SidebarButton icon={PencilRuler} href="/dashboard/projects">Projects</SidebarButton>
@@ -21,7 +21,7 @@
 	<div class="grow"></div>
 	<a
 		href={isOnOwnUserPage ? null : `/dashboard/users/${user.id}`}
-		class={`flex h-15 flex-row gap-3 border-2 shadow-xl/3 transition-colors ${isOnOwnUserPage ? 'bg-amber-800 border-amber-700' : 'border-amber-800 bg-amber-900 hover:bg-amber-800 hover:outline-2 hover:outline-amber-100'}`}
+		class={`flex h-15 2xl:h-16 flex-row gap-3 border-2 shadow-xl/3 transition-colors ${isOnOwnUserPage ? 'bg-amber-800 border-amber-700' : 'border-amber-800 bg-amber-900 hover:bg-amber-800 hover:outline-2 hover:outline-amber-100'}`}
 	>
 		<div class="aspect-square">
 			<img src={user.profilePicture} alt="User profile pic" class="aspect-square h-full" />
