@@ -142,6 +142,8 @@ export const devlog = sqliteTable('devlog', {
 
 	description: text('description').notNull(),
 	timeSpent: integer('time_spent').notNull(), // Time spent in mins
+	image: text('image').notNull(),
+	model: text('model'),
 
 	deleted: integer('deleted', { mode: 'boolean' }).notNull().default(false), // Works the same as project deletion
 	createdAt: integer('created_at', { mode: 'timestamp_ms' }).notNull(),

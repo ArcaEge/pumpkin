@@ -3,6 +3,7 @@
 	import relativeDate from 'tiny-relative-date';
 	import type { PageProps } from './$types';
 	import Devlog from '../Devlog.svelte';
+	import { ALLOWED_IMAGE_TYPES, ALLOWED_MODEL_EXTS, MAX_UPLOAD_SIZE } from './config';
 
 	const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max);
 
@@ -34,7 +35,7 @@
 	<abbr title={`${new Date(data.project.lastUpdated).toUTCString()}`}>
 		{relativeDate(data.project.lastUpdated)}
 	</abbr>
-	∙ {Math.floor(data.project.timeSpent/60)}h {data.project.timeSpent % 60}min
+	∙ {Math.floor(data.project.timeSpent / 60)}h {data.project.timeSpent % 60}min
 </p>
 {#if data.project.url && data.project.url.length > 0}
 	<div class="my-2 flex">
@@ -70,7 +71,7 @@
 
 	<h3 class="mt-6 mb-1 text-xl font-semibold">Add entry</h3>
 	{#if data.validationConstraints.timeSpent.currentMax >= data.validationConstraints.timeSpent.min}
-		<form method="POST" class="flex flex-col gap-3">
+		<form method="POST" class="flex flex-col gap-3" enctype="multipart/form-data">
 			<div class="flex flex-col gap-2">
 				<label class="flex flex-col gap-1">
 					Time spent (minutes)
@@ -116,10 +117,40 @@
 						class="border-3 border-dashed border-amber-900 bg-amber-950 ring-amber-900 placeholder:text-amber-900 active:ring-3"
 						>{form?.fields?.description ?? ''}</textarea
 					>
+					{#if form?.invalid_description}
+						<p class="mt-1 text-sm">Invalid description, must be between 20 and 1000 characters</p>
+					{/if}
 				</label>
-				{#if form?.invalid_description}
-					<p class="mt-1 text-sm">Invalid description, must be between 20 and 1000 characters</p>
-				{/if}
+				<div class="flex flex-row gap-2 mt-1">
+					<label class="flex grow flex-col gap-1">
+						Image
+						<input
+							type="file"
+							name="image"
+							accept={ALLOWED_IMAGE_TYPES.join(', ')}
+							class="border-3 border-dashed border-amber-900 bg-amber-950 p-1"
+						/>
+						{#if form?.invalid_image_file}
+							<p class="mt-1 text-sm">
+								Invalid file, must be a PNG or JPEG file under {MAX_UPLOAD_SIZE / 1024 / 1024} MiB
+							</p>
+						{/if}
+					</label>
+					<label class="flex grow flex-col gap-1">
+						3D model (optional)
+						<input
+							type="file"
+							name="model"
+							accept={ALLOWED_MODEL_EXTS.join(', ')}
+							class="border-3 border-dashed border-amber-900 bg-amber-950 p-1"
+						/>
+						{#if form?.invalid_model_file}
+							<p class="mt-1 text-sm">
+								Invalid file, must be a STL, STEP or OBJ file under {MAX_UPLOAD_SIZE / 1024 / 1024} MiB
+							</p>
+						{/if}
+					</label>
+				</div>
 			</div>
 			<button
 				type="submit"

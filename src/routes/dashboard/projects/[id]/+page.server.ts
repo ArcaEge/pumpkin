@@ -3,6 +3,9 @@ import { devlog, project } from '$lib/server/db/schema.js';
 import { error, fail } from '@sveltejs/kit';
 import { eq, and, desc, sum, sql } from 'drizzle-orm';
 import type { Actions } from './$types';
+import { writeFile } from 'node:fs/promises';
+import { extname } from 'path';
+import { ALLOWED_IMAGE_TYPES, ALLOWED_MODEL_TYPES, MAX_UPLOAD_SIZE } from './config';
 
 const DEVLOG_MIN_TIME = 5;
 const DEVLOG_MAX_TIME = 120;
@@ -88,6 +91,8 @@ export const actions = {
 		const data = await request.formData();
 		const description = data.get('description');
 		const timeSpent = data.get('timeSpent');
+		const imageFile = data.get('image') as File;
+		const modelFile = data.get('model') as File;
 
 		if (
 			!description ||
@@ -112,10 +117,50 @@ export const actions = {
 			});
 		}
 
+		// Validate image
+		if (!(imageFile instanceof File)) {
+			return fail(400, {
+				fields: { description, timeSpent },
+				invalid_image_file: true
+			});
+		}
+
+		if (imageFile.size > MAX_UPLOAD_SIZE) {
+			return fail(400, {
+				fields: { description, timeSpent },
+				invalid_image_file: true
+			});
+		}
+
+		if (!ALLOWED_IMAGE_TYPES.includes(imageFile.type)) {
+			return fail(400, {
+				fields: { description, timeSpent },
+				invalid_image_file: true
+			});
+		}
+
+		// Validate model
+		if (modelFile instanceof File) {
+			if (modelFile.size > MAX_UPLOAD_SIZE) {
+				return fail(400, {
+					fields: { description, timeSpent },
+					invalid_model_file: true
+				});
+			}
+
+			if (!ALLOWED_MODEL_TYPES.includes(modelFile.type) || !ALLOWED_MODEL_TYPES.includes(extname(modelFile.name))) {
+				return fail(400, {
+					fields: { description, timeSpent },
+					invalid_model_file: true
+				});
+			}
+		}
+
 		await db.insert(devlog).values({
 			userId: locals.user.id,
 			projectId: queriedProject.id,
 			description: description.toString().trim(),
+			image: '',
 			timeSpent: parseInt(timeSpent.toString()),
 			createdAt: new Date(Date.now()),
 			updatedAt: new Date(Date.now())
