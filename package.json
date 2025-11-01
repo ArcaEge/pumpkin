@@ -49,7 +49,7 @@
 		"@lucide/svelte": "^0.547.0",
 		"drizzle-kit": "^0.31.4",
 		"drizzle-orm": "^0.44.5",
-		"exif-be-gone": "^1.5.1",
+		"sharp": "^0.34.4",
 		"tiny-relative-date": "^2.0.2",
 		"wrangler": "^4.43.0"
 	}

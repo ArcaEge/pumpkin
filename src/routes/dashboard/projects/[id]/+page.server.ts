@@ -5,7 +5,8 @@ import { eq, and, desc, sum, sql } from 'drizzle-orm';
 import type { Actions } from './$types';
 import { writeFile } from 'node:fs/promises';
 import { extname } from 'path';
-import { ALLOWED_IMAGE_TYPES, ALLOWED_MODEL_TYPES, MAX_UPLOAD_SIZE } from './config';
+import { ALLOWED_IMAGE_TYPES, ALLOWED_MODEL_EXTS, ALLOWED_MODEL_TYPES, MAX_UPLOAD_SIZE } from './config';
+import sharp from 'sharp';
 
 const DEVLOG_MIN_TIME = 5;
 const DEVLOG_MAX_TIME = 120;
@@ -139,8 +140,12 @@ export const actions = {
 			});
 		}
 
+		const imageFilename = `./uploads/images/${crypto.randomUUID()}${extname(imageFile.name)}`;
+
 		// Validate model
-		if (modelFile instanceof File) {
+		let modelFilename = null;
+
+		if (modelFile.size) {
 			if (modelFile.size > MAX_UPLOAD_SIZE) {
 				return fail(400, {
 					fields: { description, timeSpent },
@@ -148,19 +153,30 @@ export const actions = {
 				});
 			}
 
-			if (!ALLOWED_MODEL_TYPES.includes(modelFile.type) || !ALLOWED_MODEL_TYPES.includes(extname(modelFile.name))) {
+			if (
+				!ALLOWED_MODEL_TYPES.includes(modelFile.type) ||
+				!ALLOWED_MODEL_EXTS.includes(extname(modelFile.name))
+			) {
 				return fail(400, {
 					fields: { description, timeSpent },
 					invalid_model_file: true
 				});
 			}
+
+			modelFilename = `./uploads/models/${crypto.randomUUID()}${extname(modelFile.name)}`;
+			await writeFile(modelFilename, Buffer.from(await modelFile.arrayBuffer()));
 		}
+
+		// Remove Exif metadata and save (we don't want another Hack Club classic PII leak :D)
+		const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
+		await writeFile(imageFilename, await sharp(imageBuffer).toBuffer());
 
 		await db.insert(devlog).values({
 			userId: locals.user.id,
 			projectId: queriedProject.id,
 			description: description.toString().trim(),
-			image: '',
+			image: imageFilename,
+			model: modelFilename,
 			timeSpent: parseInt(timeSpent.toString()),
 			createdAt: new Date(Date.now()),
 			updatedAt: new Date(Date.now())
