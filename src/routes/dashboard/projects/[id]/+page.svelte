@@ -121,7 +121,7 @@
 						<p class="mt-1 text-sm">Invalid description, must be between 20 and 1000 characters</p>
 					{/if}
 				</label>
-				<div class="flex flex-row gap-2 mt-1">
+				<div class="mt-1 flex flex-row gap-2">
 					<label class="flex grow flex-col gap-1">
 						Image
 						<input
@@ -133,6 +133,10 @@
 						{#if form?.invalid_image_file}
 							<p class="mt-1 text-sm">
 								Invalid file, must be a PNG or JPEG file under {MAX_UPLOAD_SIZE / 1024 / 1024} MiB
+							</p>
+						{:else}
+							<p class="mt-1 text-sm">
+								Must be a PNG or JPEG file under {MAX_UPLOAD_SIZE / 1024 / 1024} MiB
 							</p>
 						{/if}
 					</label>
@@ -146,7 +150,13 @@
 						/>
 						{#if form?.invalid_model_file}
 							<p class="mt-1 text-sm">
-								Invalid file, must be a STL, STEP or OBJ file under {MAX_UPLOAD_SIZE / 1024 / 1024} MiB
+								Invalid file, must be a STL, 3MF or OBJ file under {MAX_UPLOAD_SIZE /
+									1024 /
+									1024} MiB
+							</p>
+						{:else}
+							<p class="mt-1 text-sm">
+								Must be a STL, 3MF (recommended) or OBJ file under {MAX_UPLOAD_SIZE / 1024 / 1024} MiB
 							</p>
 						{/if}
 					</label>

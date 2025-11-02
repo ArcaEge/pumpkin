@@ -4,7 +4,7 @@
 	import relativeDate from 'tiny-relative-date';
 	import { SquarePen, Trash } from '@lucide/svelte';
 	import * as THREE from 'three';
-	import { STLLoader } from 'three/examples/jsm/Addons.js';
+	import { OBJLoader, STLLoader, ThreeMFLoader } from 'three/examples/jsm/Addons.js';
 	import { OrbitControls } from 'three/examples/jsm/Addons.js';
 	import { onMount } from 'svelte';
 
@@ -34,6 +34,7 @@
 		});
 
 		renderer.setClearColor(0xffffff, 0);
+		renderer.setPixelRatio(window.devicePixelRatio);
 
 		renderer.shadowMap.enabled = true;
 		renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -77,63 +78,151 @@
 			if (canvas.width !== width || canvas.height !== height) {
 				// you must pass false here or three.js sadly fights the browser
 				renderer.setSize(width, height, false);
+				renderer.setPixelRatio(window.devicePixelRatio);
 				camera.aspect = width / height;
 				camera.updateProjectionMatrix();
 			}
 		}
 
 		var meshMaterial = new THREE.MeshStandardMaterial({
-			// transparent: true,
+			transparent: true,
 			opacity: 0.9,
 			color: 0xb2a090,
 			roughness: 0.5,
-			flatShading: false
+			flatShading: false,
+			side: THREE.DoubleSide
 		});
 
-		var loader = new STLLoader();
-		console.log('model: ', devlog.model);
+		// Geometry parser (for .stl)
+		function parseGeometry(
+			geometry: THREE.BufferGeometry<THREE.NormalBufferAttributes, THREE.BufferGeometryEventMap>
+		) {
+			geometry.computeVertexNormals();
 
-		var geometry = loader.load(
-			devlog.model,
-			function (geometry) {
-				geometry.computeVertexNormals();
+			const mesh = new THREE.Mesh(geometry, meshMaterial);
 
-				const mesh = new THREE.Mesh(geometry, meshMaterial);
+			mesh.name = 'loadedMeshObject';
+			mesh.castShadow = true;
+			mesh.receiveShadow = true;
 
-				mesh.name = 'loadedMeshObject';
-				mesh.castShadow = true;
-				mesh.receiveShadow = true;
+			mesh.position.set(0, 0, 0);
 
-				mesh.position.set(0, 0, 0);
+			// Centre the mesh
+			var middle = new THREE.Vector3();
+			geometry.computeBoundingBox();
 
-				mesh.castShadow = true;
-				mesh.receiveShadow = true;
+			var largestDimension = 1;
 
-				// Centre the mesh
-				var middle = new THREE.Vector3();
-				geometry.computeBoundingBox();
+			if (geometry.boundingBox) {
+				geometry.boundingBox.getCenter(middle);
 
-				var largestDimension = 1;
+				largestDimension = Math.max(
+					geometry.boundingBox.max.x,
+					geometry.boundingBox.max.y,
+					geometry.boundingBox.max.z
+				);
+			}
 
-				if (geometry.boundingBox) {
-					geometry.boundingBox.getCenter(middle);
+			mesh.geometry.applyMatrix4(
+				new THREE.Matrix4().makeTranslation(-middle.x, -middle.y, -middle.z)
+			);
 
-					largestDimension = Math.max(
-						geometry.boundingBox.max.x,
-						geometry.boundingBox.max.y,
-						geometry.boundingBox.max.z
-					);
+			mesh.rotation.x = THREE.MathUtils.degToRad(-90);
+			mesh.rotation.z = THREE.MathUtils.degToRad(-25);
+
+			const edges = new THREE.EdgesGeometry(geometry);
+			const lines = new THREE.LineSegments(
+				edges,
+				new THREE.LineBasicMaterial({
+					color: 0xf3dcc6,
+					linewidth: 1,
+					polygonOffset: true,
+					polygonOffsetFactor: -1,
+					polygonOffsetUnits: -1
+				})
+			);
+
+			lines.position.set(0, 0, 0);
+			lines.rotation.x = THREE.MathUtils.degToRad(-90);
+			lines.rotation.z = THREE.MathUtils.degToRad(-25);
+
+			camera.position.z = largestDimension * 3;
+			camera.position.y = largestDimension * 2;
+
+			directional.position.set(largestDimension * 2, largestDimension * 2, largestDimension * 2);
+			directional2.position.set(-largestDimension * 2, largestDimension * 2, -largestDimension * 2);
+
+			scene.add(mesh);
+			scene.add(lines);
+		}
+
+		// File extension
+		let extension = devlog.model.slice(devlog.model.lastIndexOf('.'));
+
+		function parseObject(object: THREE.Group<THREE.Object3DEventMap>) {
+			object = object as THREE.Group<THREE.Object3DEventMap> & { children: THREE.Mesh[] };
+
+			object.rotation.x = THREE.MathUtils.degToRad(-90);
+			object.rotation.z = THREE.MathUtils.degToRad(-25);
+
+			const aabb = new THREE.Box3().setFromObject(object);
+			const center = aabb.getCenter(new THREE.Vector3());
+
+			object.position.x += object.position.x - center.x;
+			object.position.y += object.position.y - center.y;
+			object.position.z += object.position.z - center.z;
+
+			controls.reset();
+
+			var box = new THREE.Box3().setFromObject(object);
+			const size = new THREE.Vector3();
+			box.getSize(size);
+			const largestDimension = Math.max(size.x, size.y, size.z);
+
+			camera.position.z = largestDimension * 1.3;
+			camera.position.y = largestDimension * 1;
+
+			directional.position.set(largestDimension * 2, largestDimension * 2, largestDimension * 2);
+			directional2.position.set(-largestDimension * 2, largestDimension * 2, -largestDimension * 2);
+
+			camera.near = largestDimension * 0.001;
+			camera.far = largestDimension * 10;
+			camera.updateProjectionMatrix();
+
+			const edgeLines: { lines: THREE.LineSegments; mesh: THREE.Mesh }[] = [];
+
+			object.traverse(function (child) {
+				child.castShadow = true;
+				child.receiveShadow = true;
+
+				const mesh = child as THREE.Mesh;
+
+				// only 3MF can do colours, obj can't do that
+				if (extension === '.3mf') {
+					const material = mesh.material;
+
+					if (Array.isArray(material)) {
+						material.forEach((mat) => {
+							mat.transparent = true;
+							mat.side = THREE.DoubleSide;
+							mat.opacity = 0.9;
+							mat.needsUpdate = true;
+						});
+					} else if (material instanceof THREE.Material) {
+						material.transparent = true;
+						material.side = THREE.DoubleSide;
+						material.opacity = 0.9;
+						material.needsUpdate = true;
+					}
+				} else {
+					if (Array.isArray(mesh.material)) {
+						mesh.material = meshMaterial;
+					} else if (mesh.material instanceof THREE.Material) {
+						mesh.material = meshMaterial;
+					}
 				}
 
-				mesh.geometry.applyMatrix4(
-					new THREE.Matrix4().makeTranslation(-middle.x, -middle.y, -middle.z)
-				);
-
-				mesh.rotation.x = THREE.MathUtils.degToRad(-90);
-				mesh.rotation.z = THREE.MathUtils.degToRad(-25);
-
-				const edges = new THREE.EdgesGeometry(geometry);
-				// edges.scale(1.001, 1.001, 1.001);
+				const edges = new THREE.EdgesGeometry(mesh.geometry);
 				const lines = new THREE.LineSegments(
 					edges,
 					new THREE.LineBasicMaterial({
@@ -145,23 +234,44 @@
 					})
 				);
 
-				lines.position.set(0, 0, 0);
-				lines.rotation.x = THREE.MathUtils.degToRad(-90);
-				lines.rotation.z = THREE.MathUtils.degToRad(-25);
+				lines.position.copy(mesh.position);
+				lines.rotation.copy(mesh.rotation);
 
-				camera.position.z = largestDimension * 3;
-				camera.position.y = largestDimension * 2;
+				edgeLines.push({ lines, mesh });
+			});
 
-				directional.position.set(largestDimension * 2, largestDimension * 2, largestDimension * 2);
-				directional2.position.set(
-					-largestDimension * 2,
-					largestDimension * 2,
-					-largestDimension * 2
-				);
+			// Have to do it this way to avoid infinite recursion
+			edgeLines.forEach(({ lines, mesh }) => {
+				mesh.add(lines);
+			});
 
-				scene.add(mesh);
-				scene.add(lines);
-			},
+			scene.add(object);
+		}
+
+		var loader;
+
+		switch (extension) {
+			case '.stl':
+				loader = new STLLoader();
+				break;
+			case '.obj':
+				loader = new OBJLoader();
+				break;
+			case '.3mf':
+				loader = new ThreeMFLoader();
+				break;
+			default:
+				return;
+		}
+
+		console.log('model: ', devlog.model);
+
+		loader.load(
+			devlog.model,
+			(geoOrObject) =>
+				geoOrObject instanceof THREE.BufferGeometry
+					? parseGeometry(geoOrObject)
+					: parseObject(geoOrObject),
 			(xhr) => {
 				// TODO: loading slider
 				console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
@@ -197,9 +307,13 @@
 	<div class="my-1 flex flex-col gap-3 lg:flex-row">
 		<!-- svelte-ignore a11y_img_redundant_alt -->
 		<div
-			class={`flex max-h-100 w-full grow flex-row justify-center border-3 border-amber-900 lg:w-auto ${devlog.model ? 'max-w-[55%]' : ''}`}
+			class={`flex max-h-100 w-full grow flex-row justify-center border-3 border-amber-900 ${devlog.model ? 'max-w-[55%]' : ''}`}
 		>
-			<img src={`${devlog.image}`} alt="Journal image" />
+			<img
+				src={`${devlog.image}`}
+				alt="Journal image"
+				class="h-auto max-h-full w-auto max-w-full"
+			/>
 		</div>
 		{#if devlog.model}
 			<div class="max-h-100 w-100 grow border-3 border-amber-900 lg:max-w-[60%]">

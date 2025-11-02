@@ -5,10 +5,9 @@ export const ALLOWED_MODEL_TYPES = [
 	'model/stl',
 	'application/sla',
 	'application/octet-stream',
-	'model/step',
-	'application/step',
-	'application/x-step',
 	'model/obj',
+	'model/3mf',
+	'application/vnd.ms-package.3dmanufacturing-3dmodel+xml',
 	'text/plain'
 ];
-export const ALLOWED_MODEL_EXTS = ['.stl', '.step', '.obj'];
+export const ALLOWED_MODEL_EXTS = ['.stl', '.obj', '.3mf'];
