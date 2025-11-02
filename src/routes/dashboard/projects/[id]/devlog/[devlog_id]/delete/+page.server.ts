@@ -5,8 +5,8 @@ import { eq, and } from 'drizzle-orm';
 import type { Actions } from './$types';
 
 export async function load({ params, locals }) {
-	let id: number = parseInt(params.id);
-	let devlogId: number = parseInt(params.devlog_id);
+	const id: number = parseInt(params.id);
+	const devlogId: number = parseInt(params.devlog_id);
 
 	if (!locals.user) {
 		throw error(500);
@@ -38,6 +38,8 @@ export async function load({ params, locals }) {
 		devlog: {
 			id: queriedDevlog.id,
 			description: queriedDevlog.description,
+			image: queriedDevlog.image,
+			model: queriedDevlog.model,
 			timeSpent: queriedDevlog.timeSpent,
 			createdAt: queriedDevlog.createdAt
 		}
@@ -50,8 +52,8 @@ export const actions = {
 			throw error(500);
 		}
 
-		let id: number = parseInt(params.id);
-		let devlogId: number = parseInt(params.devlog_id);
+		const id: number = parseInt(params.id);
+		const devlogId: number = parseInt(params.devlog_id);
 
 		const queriedProject = await db
 			.select()

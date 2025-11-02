@@ -6,7 +6,7 @@ import type { Actions } from './$types';
 import { and, eq } from 'drizzle-orm';
 
 export async function load({ params, locals }) {
-	let id: number = parseInt(params.id);
+	const id: number = parseInt(params.id);
 
 	if (!locals.user) {
 		throw error(500);
@@ -38,7 +38,7 @@ export const actions = {
 			throw error(500);
 		}
 
-		let id: number = parseInt(params.id);
+		const id: number = parseInt(params.id);
 
 		const queriedProject = await db
 			.select()
