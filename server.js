@@ -4,7 +4,7 @@ import express from 'express';
 import path from 'node:path';
 import { handler } from './build/handler.js';
 
-const UPLOADS = path.resolve('uploads');
+const UPLOADS = path.resolve(process.env.UPLOADS_PATH);
 
 const app = express();
 
