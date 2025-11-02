@@ -15,6 +15,9 @@ export default defineConfig({
 		}
 	},
 	server: {
+		fs: {
+			allow: ['uploads']
+		},
 		host: true,
 		port: 5173,
 		strictPort: true,

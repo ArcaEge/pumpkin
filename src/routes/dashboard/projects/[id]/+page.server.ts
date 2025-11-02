@@ -1,18 +1,23 @@
 import { db } from '$lib/server/db/index.js';
 import { devlog, project } from '$lib/server/db/schema.js';
 import { error, fail } from '@sveltejs/kit';
-import { eq, and, desc, sum, sql } from 'drizzle-orm';
+import { eq, and, desc, sql } from 'drizzle-orm';
 import type { Actions } from './$types';
 import { writeFile } from 'node:fs/promises';
 import { extname } from 'path';
-import { ALLOWED_IMAGE_TYPES, ALLOWED_MODEL_EXTS, ALLOWED_MODEL_TYPES, MAX_UPLOAD_SIZE } from './config';
+import {
+	ALLOWED_IMAGE_TYPES,
+	ALLOWED_MODEL_EXTS,
+	ALLOWED_MODEL_TYPES,
+	MAX_UPLOAD_SIZE
+} from './config';
 import sharp from 'sharp';
 
 const DEVLOG_MIN_TIME = 5;
 const DEVLOG_MAX_TIME = 120;
 
 export async function load({ params }) {
-	let id: number = parseInt(params.id);
+	const id: number = parseInt(params.id);
 
 	const queriedProject = await db
 		.select({
@@ -75,7 +80,7 @@ export const actions = {
 			throw error(500);
 		}
 
-		let id: number = parseInt(params.id);
+		const id: number = parseInt(params.id);
 
 		const queriedProject = await db
 			.select()
@@ -140,7 +145,7 @@ export const actions = {
 			});
 		}
 
-		const imageFilename = `./uploads/images/${crypto.randomUUID()}${extname(imageFile.name)}`;
+		const imageFilename = `${process.env.UPLOADS_PATH ?? './uploads'}/images/${crypto.randomUUID()}${extname(imageFile.name)}`;
 
 		// Validate model
 		let modelFilename = null;
@@ -163,7 +168,7 @@ export const actions = {
 				});
 			}
 
-			modelFilename = `./uploads/models/${crypto.randomUUID()}${extname(modelFile.name)}`;
+			modelFilename = `${process.env.UPLOADS_PATH ?? './uploads'}/models/${crypto.randomUUID()}${extname(modelFile.name)}`;
 			await writeFile(modelFilename, Buffer.from(await modelFile.arrayBuffer()));
 		}
 
@@ -199,7 +204,7 @@ async function getMaxDevlogTime(id: number) {
 	if (queriedDevlogArray.length == 0) {
 		devlogCurrentMaxTime = DEVLOG_MAX_TIME;
 	} else {
-		let diff = new Date(Date.now()).valueOf() - queriedDevlogArray[0].createdAt.valueOf();
+		const diff = new Date(Date.now()).valueOf() - queriedDevlogArray[0].createdAt.valueOf();
 
 		devlogCurrentMaxTime = Math.min(Math.floor(Math.abs(diff / 1000 / 60)), DEVLOG_MAX_TIME);
 	}

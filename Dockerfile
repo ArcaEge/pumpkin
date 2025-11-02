@@ -14,7 +14,10 @@ COPY --from=builder /app/node_modules node_modules/
 COPY package.json .
 COPY drizzle.config.ts .
 COPY drizzle ./drizzle
+COPY server.js .
+ENV UPLOADS_PATH=/uploads
 ENV DATABASE_URL=file:local.db
+ENV BODY_SIZE_LIMIT=80M
 EXPOSE 3000
 ENV NODE_ENV=production
-CMD ["sh","-c","npm run db:migrate && node build"]
+CMD ["sh","-c","mkdir -p /uploads/images && mkdir -p /uploads/models && npm run db:migrate && node server.js"]

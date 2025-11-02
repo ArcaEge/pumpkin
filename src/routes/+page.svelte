@@ -31,10 +31,10 @@
 	class="mt-40 flex w-full flex-col items-center justify-center px-10 md:mt-24 lg:mt-16 lg:flex-row"
 >
 	<div>
-		<h1 class="font-hero text-5xl sm:text-6xl md:text-7xl">Leaf</h1>
+		<h1 class="font-hero text-5xl sm:text-6xl md:text-7xl">Pumpkin</h1>
 		<p class="my-3 text-xl font-medium">
-			You ship: leaf design<br />
-			We ship: cool leaf from Hack Club HQ
+			You ship: pumpkin design<br />
+			We ship: very cool pumpkin
 		</p>
 		{#if data.loggedIn}
 			<Button text="Go to dashboard" href="/dashboard" />
@@ -53,12 +53,8 @@
 	<h1 class="mb-3 text-center text-3xl font-bold sm:text-4xl">What is this?</h1>
 	<div class="w-full max-w-2xl">
 		<p class="mt-3 max-w-2xl">
-			<strong>Ever wanted to own a cool leaf?</strong> Now, you can do so! All you need to do is spend
-			10 hours designing a leaf in CAD and we'll one to you from HQ Vermont, for free.
-		</p>
-		<p class="mt-3 max-w-2xl">
-			Once you submit, you'll be enrolled in the 2nd stage of the YSWS (coming sometime later),
-			where you'll genetically modify a tree to produce your exact leaf.
+			<strong>Ever wanted to own a cool pumpkin?</strong> Now, you can do so! All you need to do is spend
+			10 hours designing a pumpkin in CAD and we'll one to you from HQ Vermont, for free.
 		</p>
 	</div>
 </div>
@@ -78,7 +74,7 @@
 			</p>
 		</Accordion>
 		<Accordion text="What can I make?">
-			<p>Any sort of reasonable autumn leaf design is fine, get creative!</p>
+			<p>Any sort of reasonable Halloween-y pumpkin design is fine, get creative!</p>
 		</Accordion>
 		<Accordion text="What are the requirements?">
 			<p>
@@ -86,11 +82,8 @@
 				Onshape-Wakatime.
 			</p>
 		</Accordion>
-		<Accordion text="Where did you get these leaves from?">
-			<p>
-				We briefly stop cheesing, go outside, collect a few leaves, shove them in an envelope and
-				mail them to you.
-			</p>
+		<Accordion text="Where did you get these pumpkins from?">
+			<p>We blackmailed a local farm.</p>
 		</Accordion>
 	</div>
 </div>
