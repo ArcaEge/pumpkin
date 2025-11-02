@@ -1,6 +1,7 @@
 <script lang="ts">
 	import relativeDate from 'tiny-relative-date';
 	import { SquarePen, Trash } from '@lucide/svelte';
+	import * as THREE from 'three';
 
 	let { devlog, projectId, showModifyButtons } = $props();
 </script>
@@ -18,6 +19,17 @@
 	<p>
 		{devlog.description}
 	</p>
+	<div class="my-1 flex gap-3">
+		<!-- svelte-ignore a11y_img_redundant_alt -->
+		<div class={`flex max-h-100 grow flex-row justify-center ${devlog.model ? 'max-w-[70%]' : ''}`}>
+			<img src={`${devlog.image}`} alt="Journal image" />
+		</div>
+		{#if devlog.model}
+			<div class="flex max-h-100 max-w-[70%] grow">
+				s
+			</div>
+		{/if}
+	</div>
 	{#if showModifyButtons}
 		<div class="mt-1 flex flex-row gap-1">
 			<a

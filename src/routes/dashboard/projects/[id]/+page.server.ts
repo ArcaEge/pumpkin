@@ -19,6 +19,11 @@ const DEVLOG_MAX_TIME = 120;
 export async function load({ params }) {
 	const id: number = parseInt(params.id);
 
+	// TODO: add this to the other endpoints
+	if (!id) {
+		throw error(404);
+	}
+
 	const queriedProject = await db
 		.select({
 			project: project,
@@ -61,6 +66,8 @@ export async function load({ params }) {
 				id: devlog.id,
 				description: devlog.description,
 				timeSpent: devlog.timeSpent,
+				image: devlog.image,
+				model: devlog.model,
 				createdAt: devlog.createdAt
 			};
 		}),
@@ -145,10 +152,11 @@ export const actions = {
 			});
 		}
 
-		const imageFilename = `${process.env.UPLOADS_PATH ?? './uploads'}/images/${crypto.randomUUID()}${extname(imageFile.name)}`;
+		const imagePath = `/images/${crypto.randomUUID()}${extname(imageFile.name)}`;
+		const imageFilename = `${process.env.UPLOADS_PATH ?? './uploads'}${imagePath}`;
 
 		// Validate model
-		let modelFilename = null;
+		let modelPath = null;
 
 		if (modelFile.size) {
 			if (modelFile.size > MAX_UPLOAD_SIZE) {
@@ -168,7 +176,9 @@ export const actions = {
 				});
 			}
 
-			modelFilename = `${process.env.UPLOADS_PATH ?? './uploads'}/models/${crypto.randomUUID()}${extname(modelFile.name)}`;
+			modelPath = `/models/${crypto.randomUUID()}${extname(modelFile.name)}`;
+
+			const modelFilename = `${process.env.UPLOADS_PATH ?? './uploads'}${modelPath}`;
 			await writeFile(modelFilename, Buffer.from(await modelFile.arrayBuffer()));
 		}
 
@@ -180,8 +190,8 @@ export const actions = {
 			userId: locals.user.id,
 			projectId: queriedProject.id,
 			description: description.toString().trim(),
-			image: imageFilename,
-			model: modelFilename,
+			image: '/uploads' + imagePath,
+			model: modelPath ? '/uploads' + modelPath : null,
 			timeSpent: parseInt(timeSpent.toString()),
 			createdAt: new Date(Date.now()),
 			updatedAt: new Date(Date.now())

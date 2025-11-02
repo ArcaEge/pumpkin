@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Devlog from '../../../../Devlog.svelte';
+	import Devlog from '../../../Devlog.svelte';
 	import type { PageProps } from './$types';
 	import { Trash } from '@lucide/svelte';
 

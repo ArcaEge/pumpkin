@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Devlog from '../../../../Devlog.svelte';
+	import Devlog from '../../../Devlog.svelte';
 	import type { PageProps } from './$types';
 
 	let { data, form, params }: PageProps = $props();

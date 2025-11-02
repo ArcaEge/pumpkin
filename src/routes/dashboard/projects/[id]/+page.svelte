@@ -2,7 +2,7 @@
 	import { SquarePen, ExternalLink, Trash } from '@lucide/svelte';
 	import relativeDate from 'tiny-relative-date';
 	import type { PageProps } from './$types';
-	import Devlog from '../Devlog.svelte';
+	import Devlog from './Devlog.svelte';
 	import { ALLOWED_IMAGE_TYPES, ALLOWED_MODEL_EXTS, MAX_UPLOAD_SIZE } from './config';
 
 	const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max);
