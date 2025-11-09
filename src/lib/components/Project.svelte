@@ -18,8 +18,8 @@
 
 <div class="themed-box relative flex flex-col p-3 shadow-lg/20 transition-all hover:scale-102">
 	<a class="absolute inset-0 z-1" href={`/dashboard/projects/${id}`} aria-label="project"></a>
-	<h1 class="flex gap-1 text-xl font-semibold">
-		<span>{name}</span>
+	<h1 class="flex flex-row gap-1 text-xl font-semibold">
+		<span class="truncate grow">{name}</span>
 		{#if !(status == 'building' || status == 'rejected')}
 			<span
 				title={!(

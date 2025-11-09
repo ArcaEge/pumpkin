@@ -1,15 +1,14 @@
 <script lang="ts">
 	import relativeDate from 'tiny-relative-date';
 	import { Calendar, ExternalLink } from '@lucide/svelte';
+	import Devlog from '../../projects/[id]/Devlog.svelte';
 
 	let { data } = $props();
 </script>
 
 <div class="flex h-full flex-row gap-10">
 	<div class="flex w-50 flex-col gap-5 lg:w-65">
-		<div
-			class="flex flex-col items-center gap-2 themed-box p-5 shadow-lg/20"
-		>
+		<div class="themed-box flex flex-col items-center gap-2 p-5 shadow-lg/20">
 			<img
 				src={data.requestedUser.profilePicture}
 				alt="User profile pic"
@@ -32,9 +31,7 @@
 				{/if}
 			</div>
 		</div>
-		<div
-			class="flex flex-col items-center gap-2 themed-box p-5 shadow-lg/20"
-		>
+		<div class="themed-box flex flex-col items-center gap-2 p-3 shadow-lg/20">
 			<h1 class="text-xl font-semibold">Projects</h1>
 			{#if data.projects.length == 0}
 				<p>
@@ -49,7 +46,7 @@
 					{#each data.projects as project}
 						<div class="flex w-full flex-row gap-1">
 							<a
-								class="grow bg-amber-800 p-2 text-center outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2"
+								class="grow bg-amber-800 p-2 text-center outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2 truncate"
 								href={`/dashboard/projects/${project.id}`}
 							>
 								{project.name}
@@ -67,12 +64,22 @@
 			{/if}
 		</div>
 	</div>
-	<div class="flex grow flex-col">
-		<h1 class="mt-5 mb-3 font-hero text-2xl font-medium">Activity</h1>
-		<div class="flex grow items-center justify-center">
-			<div class="themed-box p-3 shadow-lg/20">
-				<p>Nothing yet :(</p>
+	<div>
+		<div class="flex grow flex-col gap-3">
+			<h1 class="mt-5 font-hero text-2xl font-medium">Activity</h1>
+			{#if data.devlogs.length > 0}
+			{#each data.devlogs as devlog}
+			<Devlog devlog={devlog} projectId={devlog.projectId} projectName={devlog.projectName} showModifyButtons={false} />
+			{/each}
+			{:else}
+			<div class="flex grow items-center justify-center">
+				<div class="themed-box p-3 shadow-lg/20">
+					<p>Nothing yet :(</p>
+				</div>
 			</div>
+			{/if}
 		</div>
+		<!-- not sure why it doesn't want to work otherwise, it's really weird -->
+		<div class="text-xs invisible">hello :)</div>
 	</div>
 </div>

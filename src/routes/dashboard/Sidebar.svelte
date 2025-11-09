@@ -27,7 +27,7 @@
 			<img src={user.profilePicture} alt="User profile pic" class="aspect-square h-full" />
 		</div>
 		<div class="flex grow flex-col justify-center">
-			<p class="font-medium">
+			<p class="font-medium truncate">
 				{user.name}
 			</p>
 			<p class="text-sm">0 coins</p>

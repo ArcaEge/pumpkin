@@ -296,6 +296,11 @@
 	id={`devlog-${devlog.id}`}
 >
 	<p class="mb-0.5 text-sm opacity-90">
+		{#if projectName}
+			<a href={`/dashboard/projects/${projectId}#devlog-${devlog.id}`} class="truncate underline"
+				>{projectName}</a
+			> ∙
+		{/if}
 		<abbr title={`${devlog.createdAt.toUTCString()}`}>
 			{relativeDate(devlog.createdAt)}
 		</abbr>
@@ -307,13 +312,15 @@
 	<div class="my-1 flex flex-col gap-3 lg:flex-row">
 		<!-- svelte-ignore a11y_img_redundant_alt -->
 		<div
-			class={`flex max-h-100 w-full grow flex-row justify-center border-3 border-amber-900 ${devlog.model ? 'max-w-[55%]' : ''}`}
+			class={`flex max-h-100 w-full grow flex-row justify-center border-3 border-amber-900 ${devlog.model ? 'lg:max-w-[55%]' : ''}`}
 		>
-			<img
-				src={`${devlog.image}`}
-				alt="Journal image"
-				class="h-auto max-h-full w-auto max-w-full"
-			/>
+			<div class="flex justify-center">
+				<img
+					src={`${devlog.image}`}
+					alt="Journal image"
+					class="max-h-full max-w-full object-contain"
+				/>
+			</div>
 		</div>
 		{#if devlog.model}
 			<div class="max-h-100 w-100 grow border-3 border-amber-900 lg:max-w-[60%]">
