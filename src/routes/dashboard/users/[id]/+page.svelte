@@ -8,7 +8,7 @@
 <div class="flex h-full flex-row gap-10">
 	<div class="flex w-50 flex-col gap-5 lg:w-65">
 		<div
-			class="flex flex-col items-center gap-2 border-3 border-dashed border-amber-900 bg-amber-950 p-5 shadow-lg/20"
+			class="flex flex-col items-center gap-2 themed-box p-5 shadow-lg/20"
 		>
 			<img
 				src={data.requestedUser.profilePicture}
@@ -33,7 +33,7 @@
 			</div>
 		</div>
 		<div
-			class="flex flex-col items-center gap-2 border-3 border-dashed border-amber-900 bg-amber-950 p-5 shadow-lg/20"
+			class="flex flex-col items-center gap-2 themed-box p-5 shadow-lg/20"
 		>
 			<h1 class="text-xl font-semibold">Projects</h1>
 			{#if data.projects.length == 0}
@@ -70,7 +70,7 @@
 	<div class="flex grow flex-col">
 		<h1 class="mt-5 mb-3 font-hero text-2xl font-medium">Activity</h1>
 		<div class="flex grow items-center justify-center">
-			<div class="border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20">
+			<div class="themed-box p-3 shadow-lg/20">
 				<p>Nothing yet :(</p>
 			</div>
 		</div>

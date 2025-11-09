@@ -18,21 +18,21 @@
 
 <div class="themed-box relative flex flex-col p-3 shadow-lg/20 transition-all hover:scale-102">
 	<a class="absolute inset-0 z-1" href={`/dashboard/projects/${id}`} aria-label="project"></a>
-	<h1 class="flex text-xl font-semibold">
-		{name}
+	<h1 class="flex gap-1 text-xl font-semibold">
+		<span>{name}</span>
 		{#if !(status == 'building' || status == 'rejected')}
-			<Lock class="ml-1" />
+			<Lock />
 		{/if}
 	</h1>
 	<p class="grow">{description}</p>
 	{#if url && url.length > 0}
 		<div class="my-2 flex">
 			<a
-				class="relative z-2 flex flex-row gap-1 bg-amber-800 p-2 text-sm outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2"
+				class="relative z-2 button sm amber"
 				href={url}
 				target="_blank"
 			>
-				<ExternalLink size={20} />
+				<ExternalLink />
 				Link to project
 			</a>
 		</div>

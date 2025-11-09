@@ -15,7 +15,7 @@
 				placeholder="Come up with an interesting name"
 				required
 				value={form?.fields?.name ?? ''}
-				class="border-3 border-dashed border-amber-900 bg-amber-950 ring-amber-900 placeholder:text-amber-900 active:ring-3"
+				class="themed-box ring-amber-900 placeholder:text-amber-900 active:ring-3"
 			/>
 		</label>
 		{#if form?.invalid_name}
@@ -28,7 +28,7 @@
 			<textarea
 				name="description"
 				placeholder="A couple sentences to describe your project"
-				class="border-3 border-dashed border-amber-900 bg-amber-950 ring-amber-900 placeholder:text-amber-900 active:ring-3"
+				class="themed-box ring-amber-900 placeholder:text-amber-900 active:ring-3"
 				>{form?.fields?.description ?? ''}</textarea
 			>
 		</label>
@@ -44,7 +44,7 @@
 				name="url"
 				placeholder="A link to your design"
 				value={form?.fields?.url ?? ''}
-				class="border-3 border-dashed border-amber-900 bg-amber-950 ring-amber-900 placeholder:text-amber-900 active:ring-3"
+				class="themed-box ring-amber-900 placeholder:text-amber-900 active:ring-3"
 			/>
 		</label>
 		{#if form?.invalid_url}

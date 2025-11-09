@@ -40,7 +40,7 @@
 {#if data.project.url && data.project.url.length > 0}
 	<div class="my-2 flex">
 		<a class="button sm amber" href={data.project.url} target="_blank">
-			<ExternalLink size={20} />
+			<ExternalLink />
 			Link to project
 		</a>
 	</div>
@@ -50,15 +50,15 @@
 {#if data.project.userId === data.user.id}
 	<div class="flex gap-2">
 		<a href={`/dashboard/projects/${data.project.id}/edit`} class="button sm amber mt-3">
-			<SquarePen size={20} />
+			<SquarePen />
 			Edit
 		</a>
 		<a href={`/dashboard/projects/${data.project.id}/ship`} class="button sm orange mt-3">
-			<Ship size={20} />
+			<Ship />
 			Ship
 		</a>
-		<a href={`/dashboard/projects/${data.project.id}/delete`} class="button sm red mt-3">
-			<Trash size={20} />
+		<a href={`/dashboard/projects/${data.project.id}/delete`} class="button sm dark-red mt-3">
+			<Trash />
 			Delete
 		</a>
 	</div>

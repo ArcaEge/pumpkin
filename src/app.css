@@ -66,6 +66,18 @@
 
 		&.sm {
 			@apply gap-1 p-2 text-sm hover:outline-2 focus:outline-2;
+
+			& .lucide-icon {
+				@apply size-[20px];
+			}
+		}
+
+		&.xs {
+			@apply gap-1 p-1.5 text-xs hover:outline-2 focus:outline-2;
+
+			& .lucide-icon {
+				@apply size-[16px];
+			}
 		}
 
 		&.md {
@@ -82,6 +94,10 @@
 
 		&.amber {
 			@apply bg-amber-800 outline-amber-50 hover:bg-amber-700;
+		}
+
+		&.dark-red {
+			@apply bg-red-900 outline-red-50 hover:bg-red-800;
 		}
 	}
 }

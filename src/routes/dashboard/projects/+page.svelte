@@ -22,7 +22,7 @@
 	{#if data.projects.length == 0}
 		<div class="flex grow items-center justify-center">
 			<div>
-				<p class="border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20">
+				<p class="themed-box p-3 shadow-lg/20">
 					No projects yet <img
 						src="https://emoji.slack-edge.com/T0266FRGM/heavysob/55bf09f6c9d93d08.png"
 						alt="heavysob"

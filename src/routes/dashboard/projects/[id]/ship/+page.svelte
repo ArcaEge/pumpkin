@@ -13,7 +13,7 @@
 <form method="POST" class="flex flex-row gap-2">
 	<a href={`/dashboard/projects/${data.project.id}`} class="button sm amber mt-3">Cancel</a>
 	<button class="button sm orange mt-3">
-		<Ship size={20} />
+		<Ship />
 		Ship
 	</button>
 </form>

@@ -20,7 +20,7 @@
 				name="description"
 				placeholder="Describe what you changed"
 				bind:value={description}
-				class="border-3 border-dashed border-amber-900 bg-amber-950 ring-amber-900 placeholder:text-amber-900 active:ring-3"
+				class="themed-box ring-amber-900 placeholder:text-amber-900 active:ring-3"
 				>{form?.fields?.description ?? data.devlog.description}</textarea
 			>
 		</label>
@@ -28,10 +28,5 @@
 			<p class="mt-1 text-sm">Invalid description, must be between 20 and 1000 characters</p>
 		{/if}
 	</div>
-	<button
-		type="submit"
-		class="cursor-pointer bg-amber-800 p-2 outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-3"
-	>
-		Update journal entry
-	</button>
+	<button type="submit" class="button md amber">Update journal entry</button>
 </form>

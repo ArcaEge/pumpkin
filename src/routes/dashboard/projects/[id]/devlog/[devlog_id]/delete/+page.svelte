@@ -12,14 +12,14 @@
 <form method="POST" class="flex flex-row gap-2 mt-2">
 	<a
 		href={`/dashboard/projects/${data.devlog.id}`}
-		class="flex cursor-pointer flex-row gap-1 bg-amber-800 p-2 text-sm outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2"
+		class="button sm amber"
 	>
 		Cancel
 	</a>
 	<button
-		class="flex cursor-pointer flex-row gap-1 bg-red-900 p-2 text-sm outline-red-50 transition-colors hover:bg-red-800 hover:outline-2"
+		class="button sm red"
 	>
-		<Trash size={20} />
+		<Trash />
 		Delete
 	</button>
 </form>
