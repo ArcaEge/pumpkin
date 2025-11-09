@@ -7,7 +7,7 @@
 </script>
 
 <div class="flex h-full flex-row gap-10">
-	<div class="flex w-50 flex-col gap-5 lg:w-65">
+	<div class="flex w-50 min-w-50 flex-col gap-5 lg:w-65 lg:min-w-65">
 		<div class="themed-box flex flex-col items-center gap-2 p-5 shadow-lg/20">
 			<img
 				src={data.requestedUser.profilePicture}
@@ -46,7 +46,7 @@
 					{#each data.projects as project}
 						<div class="flex w-full flex-row gap-1">
 							<a
-								class="grow bg-amber-800 p-2 text-center outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2 truncate"
+								class="grow truncate bg-amber-800 p-2 text-center outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2"
 								href={`/dashboard/projects/${project.id}`}
 							>
 								{project.name}
@@ -68,18 +68,23 @@
 		<div class="flex grow flex-col gap-3">
 			<h1 class="mt-5 font-hero text-2xl font-medium">Activity</h1>
 			{#if data.devlogs.length > 0}
-			{#each data.devlogs as devlog}
-			<Devlog devlog={devlog} projectId={devlog.projectId} projectName={devlog.projectName} showModifyButtons={false} />
-			{/each}
+				{#each data.devlogs as devlog}
+					<Devlog
+						{devlog}
+						projectId={devlog.projectId}
+						projectName={devlog.projectName}
+						showModifyButtons={false}
+					/>
+				{/each}
 			{:else}
-			<div class="flex grow items-center justify-center">
-				<div class="themed-box p-3 shadow-lg/20">
-					<p>Nothing yet :(</p>
+				<div class="flex grow items-center justify-center">
+					<div class="themed-box p-3 shadow-lg/20">
+						<p>Nothing yet :(</p>
+					</div>
 				</div>
-			</div>
 			{/if}
 		</div>
 		<!-- not sure why it doesn't want to work otherwise, it's really weird -->
-		<div class="text-xs invisible">hello :)</div>
+		<div class="invisible text-xs">hello :)</div>
 	</div>
 </div>
