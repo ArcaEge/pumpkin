@@ -11,15 +11,20 @@
 		createdAt: Date;
 		timeSpent: number;
 		status: keyof typeof projectStatuses;
+		clickable: boolean;
 	}
 
-	let { id, name, description, url, createdAt, timeSpent, status }: Props = $props();
+	let { id, name, description, url, createdAt, timeSpent, status, clickable }: Props = $props();
 </script>
 
-<div class="themed-box relative flex flex-col p-3 shadow-lg/20 transition-all hover:scale-102">
-	<a class="absolute inset-0 z-1" href={`/dashboard/projects/${id}`} aria-label="project"></a>
+<div
+	class={`themed-box relative flex flex-col p-3 shadow-lg/20 transition-all ${clickable ? 'hover:scale-102' : ''}`}
+>
+	{#if clickable}
+		<a class="absolute inset-0 z-1" href={`/dashboard/projects/${id}`} aria-label="project"></a>
+	{/if}
 	<h1 class="flex flex-row gap-1 text-xl font-semibold">
-		<span class="truncate grow">{name}</span>
+		<span class="grow truncate">{name}</span>
 		{#if !(status == 'building' || status == 'rejected')}
 			<span
 				title={!(

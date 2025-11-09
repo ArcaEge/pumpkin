@@ -42,6 +42,7 @@
 					createdAt={project.createdAt}
 					timeSpent={project.timeSpent}
 					status={project.status}
+					clickable={true}
 				/>
 			{/each}
 		</div>
