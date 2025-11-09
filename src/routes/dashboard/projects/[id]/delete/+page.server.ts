@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db/index.js';
-import { project } from '$lib/server/db/schema.js';
+import { devlog, project } from '$lib/server/db/schema.js';
 import { error, redirect } from '@sveltejs/kit';
-import { eq, and, or } from 'drizzle-orm';
+import { eq, and, or, sql } from 'drizzle-orm';
 import type { Actions } from './$types';
 
 export async function load({ params, locals }) {
@@ -12,8 +12,17 @@ export async function load({ params, locals }) {
 	}
 
 	const queriedProject = await db
-		.select()
+		.select({
+			id: project.id,
+			name: project.name,
+			description: project.description,
+			url: project.url,
+			createdAt: project.createdAt,
+			status: project.status,
+			timeSpent: sql<number>`COALESCE(SUM(${devlog.timeSpent}), 0)`
+		})
 		.from(project)
+		.leftJoin(devlog, and(eq(project.id, devlog.projectId), eq(devlog.deleted, false)))
 		.where(
 			and(
 				eq(project.id, id),
@@ -29,10 +38,7 @@ export async function load({ params, locals }) {
 	}
 
 	return {
-		project: {
-			id: queriedProject.id,
-			name: queriedProject.name
-		}
+		project: queriedProject
 	};
 }
 
