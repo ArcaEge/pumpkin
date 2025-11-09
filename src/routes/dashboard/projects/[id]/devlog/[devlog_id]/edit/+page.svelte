@@ -12,8 +12,9 @@
 	showModifyButtons={false}
 	projectId={params.id}
 />
-<form method="POST" class="mt-3 flex flex-col gap-3">
-	<div class="flex flex-col gap-2">
+<p class="mt-3 text-sm">You can't update anything other than the description, if you want to change the time, image or 3D model then delete and recreate the journal entry.</p>
+<form method="POST" class="flex flex-col gap-3">
+	<div class="mt-1 flex flex-col gap-2">
 		<label class="flex flex-col gap-1">
 			Description
 			<textarea

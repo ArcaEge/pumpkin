@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SquarePen, ExternalLink, Trash, Ship } from '@lucide/svelte';
+	import { SquarePen, ExternalLink, Trash, Ship, Lock } from '@lucide/svelte';
 	import relativeDate from 'tiny-relative-date';
 	import type { PageProps } from './$types';
 	import Devlog from './Devlog.svelte';
@@ -57,6 +57,7 @@
 		<a
 			href={editable ? `/dashboard/projects/${data.project.id}/edit` : null}
 			class={`button sm amber ${editable ? '' : 'disabled'}`}
+			title={editable ? null : 'Currently locked as the project has been shipped'}
 		>
 			<SquarePen />
 			Edit
@@ -64,6 +65,7 @@
 		<a
 			href={editable ? `/dashboard/projects/${data.project.id}/ship` : null}
 			class={`button sm orange ${editable ? '' : 'disabled'}`}
+			title={editable ? null : 'Currently locked as the project has been shipped'}
 		>
 			<Ship />
 			Ship
@@ -71,6 +73,7 @@
 		<a
 			href={editable ? `/dashboard/projects/${data.project.id}/delete` : null}
 			class={`button sm dark-red ${editable ? '' : 'disabled'}`}
+			title={editable ? null : 'Currently locked as the project has been shipped'}
 		>
 			<Trash />
 			Delete
@@ -78,7 +81,12 @@
 	</div>
 
 	<h3 class="mt-6 mb-1 text-xl font-semibold">Add entry</h3>
-	{#if data.validationConstraints.timeSpent.currentMax >= data.validationConstraints.timeSpent.min}
+	{#if !editable}
+	<div class="flex gap-1">
+		<Lock size={20} />
+		<p>Journalling is locked as the project has been shipped</p>
+	</div>
+	{:else if data.validationConstraints.timeSpent.currentMax >= data.validationConstraints.timeSpent.min}
 		<form method="POST" class="flex flex-col gap-3" enctype="multipart/form-data">
 			<div class="flex flex-col gap-2">
 				<label class="flex flex-col gap-1">
@@ -196,7 +204,7 @@
 
 	{#if data.devlogs.length == 0}
 		<div>
-			No devlogs yet <img
+			No journal entries yet <img
 				src="https://emoji.slack-edge.com/T0266FRGM/heavysob/55bf09f6c9d93d08.png"
 				alt="heavysob"
 				class="inline h-5.5"
@@ -208,6 +216,7 @@
 				{devlog}
 				projectId={data.project.id}
 				showModifyButtons={data.project.userId == data.user.id}
+				allowDelete={editable}
 			/>
 		{/each}
 	{/if}

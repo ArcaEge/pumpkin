@@ -8,7 +8,7 @@
 	import { OrbitControls } from 'three/examples/jsm/Addons.js';
 	import { onMount } from 'svelte';
 
-	let { devlog, projectId, showModifyButtons } = $props();
+	let { devlog, projectId, showModifyButtons, allowDelete = true, projectName = null } = $props();
 
 	// Necessary for camera/plane rotation
 	let degree = Math.PI / 180;
@@ -328,8 +328,9 @@
 				Edit
 			</a>
 			<a
-				href={`/dashboard/projects/${projectId}/devlog/${devlog.id}/delete`}
-				class="button xs dark-red"
+				href={allowDelete ? `/dashboard/projects/${projectId}/devlog/${devlog.id}/delete` : null}
+				class={`button xs dark-red ${allowDelete ? '' : 'disabled'}`}
+				title={allowDelete ? null : 'Currently locked as the project has been shipped'}
 			>
 				<Trash />
 				Delete

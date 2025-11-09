@@ -65,7 +65,7 @@ export const actions = {
 		await db
 			.update(project)
 			.set({
-				status: 'submitted'
+				status: 'finalized'
 			})
 			.where(
 				and(
