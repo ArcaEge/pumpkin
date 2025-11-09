@@ -1,16 +1,30 @@
 <script lang="ts">
-	import { ExternalLink } from '@lucide/svelte';
+	import { projectStatuses } from '$lib/utils';
+	import { ExternalLink, Lock } from '@lucide/svelte';
 	import relativeDate from 'tiny-relative-date';
 
-	let { id, name, description, url, createdAt, timeSpent } = $props();
+	interface Props {
+		id: number;
+		name: string | null;
+		description: string | null;
+		url: string | null;
+		createdAt: Date;
+		timeSpent: number;
+		status: keyof typeof projectStatuses;
+	}
+
+	let { id, name, description, url, createdAt, timeSpent, status }: Props = $props();
 </script>
 
-<div
-	class="relative border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20 transition-all hover:scale-102"
->
+<div class="themed-box relative flex flex-col p-3 shadow-lg/20 transition-all hover:scale-102">
 	<a class="absolute inset-0 z-1" href={`/dashboard/projects/${id}`} aria-label="project"></a>
-	<h1 class="text-xl font-semibold">{name}</h1>
-	<p>{description}</p>
+	<h1 class="flex text-xl font-semibold">
+		{name}
+		{#if !(status == 'building' || status == 'rejected')}
+			<Lock class="ml-1" />
+		{/if}
+	</h1>
+	<p class="grow">{description}</p>
 	{#if url && url.length > 0}
 		<div class="my-2 flex">
 			<a
@@ -25,10 +39,13 @@
 	{:else}
 		<div class="mb-2"></div>
 	{/if}
-	<p class="text-sm">
-		Created <abbr title={`${createdAt.toUTCString()}`} class="relative z-2">
-			{relativeDate(createdAt)}
-		</abbr>
-		∙ {Math.floor(timeSpent / 60)}h {timeSpent % 60}min
-	</p>
+	<div class="flex flex-row gap-4">
+		<p class="grow text-sm">
+			Created <abbr title={`${createdAt.toUTCString()}`} class="relative z-2">
+				{relativeDate(createdAt)}
+			</abbr>
+			∙ {Math.floor(timeSpent / 60)}h {timeSpent % 60}min
+		</p>
+		<p class="text-sm">{projectStatuses[status]}</p>
+	</div>
 </div>

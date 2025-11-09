@@ -61,11 +61,11 @@ export const actions = {
 			throw error(404);
 		}
 
+		// TODO: change when shipping is properly implemented
 		await db
 			.update(project)
 			.set({
-				deleted: true,
-				updatedAt: new Date(Date.now())
+				status: 'submitted'
 			})
 			.where(
 				and(

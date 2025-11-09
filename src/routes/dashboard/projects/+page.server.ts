@@ -26,7 +26,8 @@ export async function load({ locals }) {
 				description: project.project.description,
 				url: project.project.url,
 				createdAt: project.project.createdAt,
-				timeSpent: project.timeSpent
+				timeSpent: project.timeSpent,
+				status: project.project.status,
 			};
 		})
 	};

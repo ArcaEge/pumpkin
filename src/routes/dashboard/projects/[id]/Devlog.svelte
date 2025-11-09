@@ -292,7 +292,7 @@
 </script>
 
 <div
-	class="relative flex flex-col border-3 border-dashed border-amber-900 bg-amber-950 p-3 shadow-lg/20 transition-all"
+	class="relative flex flex-col themed-box p-3 shadow-lg/20 transition-all"
 	id={`devlog-${devlog.id}`}
 >
 	<p class="mb-0.5 text-sm opacity-90">

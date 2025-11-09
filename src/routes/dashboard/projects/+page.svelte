@@ -41,6 +41,7 @@
 					url={project.url}
 					createdAt={project.createdAt}
 					timeSpent={project.timeSpent}
+					status={project.status}
 				/>
 			{/each}
 		</div>

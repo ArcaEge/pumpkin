@@ -3,7 +3,7 @@ import { project } from '$lib/server/db/schema.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { isValidUrl } from '$lib/utils';
 import type { Actions } from './$types';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, or } from 'drizzle-orm';
 
 export async function load({ params, locals }) {
 	const id: number = parseInt(params.id);
@@ -15,7 +15,14 @@ export async function load({ params, locals }) {
 	const queriedProject = await db
 		.select()
 		.from(project)
-		.where(and(eq(project.id, id), eq(project.userId, locals.user.id), eq(project.deleted, false)))
+		.where(
+			and(
+				eq(project.id, id),
+				eq(project.userId, locals.user.id),
+				eq(project.deleted, false),
+				or(eq(project.status, 'building'), eq(project.status, 'rejected'))
+			)
+		)
 		.get();
 
 	if (!queriedProject) {
@@ -44,7 +51,12 @@ export const actions = {
 			.select()
 			.from(project)
 			.where(
-				and(eq(project.id, id), eq(project.userId, locals.user.id), eq(project.deleted, false))
+				and(
+					eq(project.id, id),
+					eq(project.userId, locals.user.id),
+					eq(project.deleted, false),
+					or(eq(project.status, 'building'), eq(project.status, 'rejected'))
+				)
 			)
 			.get();
 

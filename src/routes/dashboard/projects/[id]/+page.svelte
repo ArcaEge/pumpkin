@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SquarePen, ExternalLink, Trash } from '@lucide/svelte';
+	import { SquarePen, ExternalLink, Trash, Ship } from '@lucide/svelte';
 	import relativeDate from 'tiny-relative-date';
 	import type { PageProps } from './$types';
 	import Devlog from './Devlog.svelte';
@@ -39,11 +39,7 @@
 </p>
 {#if data.project.url && data.project.url.length > 0}
 	<div class="my-2 flex">
-		<a
-			class="relative z-2 flex flex-row gap-1 bg-amber-800 p-2 text-sm outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2"
-			href={data.project.url}
-			target="_blank"
-		>
+		<a class="button sm amber" href={data.project.url} target="_blank">
 			<ExternalLink size={20} />
 			Link to project
 		</a>
@@ -53,17 +49,15 @@
 
 {#if data.project.userId === data.user.id}
 	<div class="flex gap-2">
-		<a
-			href={`/dashboard/projects/${data.project.id}/edit`}
-			class="mt-3 flex cursor-pointer flex-row gap-1 bg-amber-800 p-2 text-sm outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-2"
-		>
+		<a href={`/dashboard/projects/${data.project.id}/edit`} class="button sm amber mt-3">
 			<SquarePen size={20} />
 			Edit
 		</a>
-		<a
-			href={`/dashboard/projects/${data.project.id}/delete`}
-			class="mt-3 flex cursor-pointer flex-row gap-1 bg-red-900 p-2 text-sm outline-red-50 transition-colors hover:bg-red-800 hover:outline-2"
-		>
+		<a href={`/dashboard/projects/${data.project.id}/ship`} class="button sm orange mt-3">
+			<Ship size={20} />
+			Ship
+		</a>
+		<a href={`/dashboard/projects/${data.project.id}/delete`} class="button sm red mt-3">
 			<Trash size={20} />
 			Delete
 		</a>
@@ -85,7 +79,7 @@
 								min={data.validationConstraints.timeSpent.min}
 								max={data.validationConstraints.timeSpent.currentMax}
 								{onchange}
-								class="w-25 border-3 border-dashed border-amber-900 bg-amber-950 ring-amber-900 placeholder:text-amber-900 active:ring-3"
+								class="themed-box w-25 ring-amber-900 placeholder:text-amber-900 active:ring-3"
 							/>
 						</div>
 						<input
@@ -114,7 +108,7 @@
 					<textarea
 						name="description"
 						placeholder="Describe what you changed"
-						class="border-3 border-dashed border-amber-900 bg-amber-950 ring-amber-900 placeholder:text-amber-900 active:ring-3"
+						class="themed-box ring-amber-900 placeholder:text-amber-900 active:ring-3"
 						>{form?.fields?.description ?? ''}</textarea
 					>
 					{#if form?.invalid_description}
@@ -128,7 +122,7 @@
 							type="file"
 							name="image"
 							accept={ALLOWED_IMAGE_TYPES.join(', ')}
-							class="border-3 border-dashed border-amber-900 bg-amber-950 p-1"
+							class="themed-box p-1 outline-amber-900 focus:outline-1"
 						/>
 						{#if form?.invalid_image_file}
 							<p class="mt-1 text-sm">
@@ -146,13 +140,11 @@
 							type="file"
 							name="model"
 							accept={ALLOWED_MODEL_EXTS.join(', ')}
-							class="border-3 border-dashed border-amber-900 bg-amber-950 p-1"
+							class="themed-box p-1 outline-amber-900 focus:outline-1"
 						/>
 						{#if form?.invalid_model_file}
 							<p class="mt-1 text-sm">
-								Invalid file, must be a STL, 3MF or OBJ file under {MAX_UPLOAD_SIZE /
-									1024 /
-									1024} MiB
+								Invalid file, must be a STL, 3MF or OBJ file under {MAX_UPLOAD_SIZE / 1024 / 1024} MiB
 							</p>
 						{:else}
 							<p class="mt-1 text-sm">
@@ -162,12 +154,7 @@
 					</label>
 				</div>
 			</div>
-			<button
-				type="submit"
-				class="cursor-pointer bg-amber-800 p-2 outline-amber-50 transition-colors hover:bg-amber-700 hover:outline-3"
-			>
-				Add journal entry!
-			</button>
+			<button type="submit" class="button md amber">Add journal entry!</button>
 		</form>
 	{:else}
 		<p>
@@ -184,7 +171,7 @@
 			<div class="mt-1.5 flex">
 				<select
 					bind:value={sortDropdownValue}
-					class="border-3 border-dashed border-amber-900 bg-amber-950 fill-amber-50 text-sm ring-amber-900 placeholder:text-amber-900 active:ring-3"
+					class="themed-box fill-amber-50 text-sm ring-amber-900 placeholder:text-amber-900 active:ring-3"
 				>
 					<option value="descending">New to old</option>
 					<option value="ascending">Old to new</option>
