@@ -21,17 +21,23 @@
 	<h1 class="flex gap-1 text-xl font-semibold">
 		<span>{name}</span>
 		{#if !(status == 'building' || status == 'rejected')}
-			<Lock />
+			<span
+				title={!(
+					status == ('building' as keyof typeof projectStatuses) ||
+					status == ('rejected' as keyof typeof projectStatuses)
+				)
+					? 'This project is currently locked as it has been shipped'
+					: null}
+				class="relative z-2"
+			>
+				<Lock />
+			</span>
 		{/if}
 	</h1>
 	<p class="grow">{description}</p>
 	{#if url && url.length > 0}
 		<div class="my-2 flex">
-			<a
-				class="relative z-2 button sm amber"
-				href={url}
-				target="_blank"
-			>
+			<a class="button sm amber relative z-2" href={url} target="_blank">
 				<ExternalLink />
 				Link to project
 			</a>

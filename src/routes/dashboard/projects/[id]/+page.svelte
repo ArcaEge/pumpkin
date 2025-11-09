@@ -4,12 +4,15 @@
 	import type { PageProps } from './$types';
 	import Devlog from './Devlog.svelte';
 	import { ALLOWED_IMAGE_TYPES, ALLOWED_MODEL_EXTS, MAX_UPLOAD_SIZE } from './config';
+	import { projectStatuses } from '$lib/utils';
 
 	const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max);
 
 	let { data, form }: PageProps = $props();
 	let sortDropdownValue = $state('descending');
 	let sortDevlogsAscending = $derived.by(() => sortDropdownValue == 'ascending');
+
+	let editable = $derived(data.project.status == 'building' || data.project.status == 'rejected');
 
 	let timeSpent = $state(
 		form?.fields?.timeSpent?.toString()
@@ -28,7 +31,8 @@
 
 <h1 class="mt-5 mb-2 font-hero text-3xl font-medium">{data.project.name}</h1>
 <p class="text-sm">
-	Created <abbr title={`${data.project.createdAt.toUTCString()}`}>
+	Created
+	<abbr title={`${data.project.createdAt.toUTCString()}`}>
 		{relativeDate(data.project.createdAt)}
 	</abbr>
 	∙ Updated
@@ -37,6 +41,7 @@
 	</abbr>
 	∙ {Math.floor(data.project.timeSpent / 60)}h {data.project.timeSpent % 60}min
 </p>
+<p class="mt-0.5">Status: {projectStatuses[data.project.status]}</p>
 {#if data.project.url && data.project.url.length > 0}
 	<div class="my-2 flex">
 		<a class="button sm amber" href={data.project.url} target="_blank">
@@ -48,16 +53,25 @@
 <p class="mt-6">{data.project.description}</p>
 
 {#if data.project.userId === data.user.id}
-	<div class="flex gap-2">
-		<a href={`/dashboard/projects/${data.project.id}/edit`} class="button sm amber mt-3">
+	<div class="mt-3 flex gap-2">
+		<a
+			href={editable ? `/dashboard/projects/${data.project.id}/edit` : null}
+			class={`button sm amber ${editable ? '' : 'disabled'}`}
+		>
 			<SquarePen />
 			Edit
 		</a>
-		<a href={`/dashboard/projects/${data.project.id}/ship`} class="button sm orange mt-3">
+		<a
+			href={editable ? `/dashboard/projects/${data.project.id}/ship` : null}
+			class={`button sm orange ${editable ? '' : 'disabled'}`}
+		>
 			<Ship />
 			Ship
 		</a>
-		<a href={`/dashboard/projects/${data.project.id}/delete`} class="button sm dark-red mt-3">
+		<a
+			href={editable ? `/dashboard/projects/${data.project.id}/delete` : null}
+			class={`button sm dark-red ${editable ? '' : 'disabled'}`}
+		>
 			<Trash />
 			Delete
 		</a>

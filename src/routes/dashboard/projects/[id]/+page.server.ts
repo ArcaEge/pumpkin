@@ -59,7 +59,8 @@ export async function load({ params }) {
 			url: queriedProject.project.url,
 			createdAt: queriedProject.project.createdAt,
 			timeSpent: queriedProject.timeSpent,
-			lastUpdated: queriedProject.lastUpdated
+			lastUpdated: queriedProject.lastUpdated,
+			status: queriedProject.project.status
 		},
 		devlogs: devlogs.map((devlog) => {
 			return {

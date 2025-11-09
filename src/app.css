@@ -84,12 +84,16 @@
 			@apply gap-1 p-2 hover:outline-3 focus:outline-3;
 		}
 
+		&.disabled {
+			@apply cursor-not-allowed opacity-80 hover:outline-0;
+		}
+
 		&.red {
 			@apply bg-red-800 outline-red-50 hover:bg-red-700;
 		}
 
 		&.orange {
-			@apply bg-orange-800 outline-orange-50 hover:bg-orange-800;
+			@apply bg-orange-800 outline-orange-50 hover:bg-orange-700;
 		}
 
 		&.amber {
