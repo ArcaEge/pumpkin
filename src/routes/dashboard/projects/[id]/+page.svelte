@@ -14,6 +14,16 @@
 
 	let editable = $derived(data.project.status == 'building' || data.project.status == 'rejected');
 
+	let description = $state(form?.fields?.description ?? '');
+	let descriptionLength = $derived(description.toString().length);
+	let descriptionValid = $derived(
+		descriptionLength >= data.validationConstraints.words.min &&
+			descriptionLength <= data.validationConstraints.words.max
+	);
+	let descriptionCharCount = $derived(
+		`${descriptionLength}/${descriptionLength >= data.validationConstraints.words.min ? data.validationConstraints.words.max : data.validationConstraints.words.min}`
+	);
+
 	let timeSpent = $state(
 		form?.fields?.timeSpent?.toString()
 			? (parseInt(form?.fields?.timeSpent?.toString()) ?? data.validationConstraints.timeSpent.min)
@@ -82,10 +92,10 @@
 
 	<h3 class="mt-6 mb-1 text-xl font-semibold">Add entry</h3>
 	{#if !editable}
-	<div class="flex gap-1">
-		<Lock size={20} />
-		<p>Journalling is locked as the project has been shipped</p>
-	</div>
+		<div class="flex gap-1">
+			<Lock size={20} />
+			<p>Journalling is locked as the project has been shipped</p>
+		</div>
 	{:else if data.validationConstraints.timeSpent.currentMax >= data.validationConstraints.timeSpent.min}
 		<form method="POST" class="flex flex-col gap-3" enctype="multipart/form-data">
 			<div class="flex flex-col gap-2">
@@ -127,14 +137,24 @@
 				</label>
 				<label class="flex flex-col gap-1">
 					Description
-					<textarea
-						name="description"
-						placeholder="Describe what you changed"
-						class="themed-box ring-amber-900 placeholder:text-amber-900 active:ring-3"
-						>{form?.fields?.description ?? ''}</textarea
-					>
+					<div class="group relative">
+						<textarea
+							name="description"
+							placeholder="Describe what you changed"
+							class="themed-box min-h-20 w-full ring-amber-900 placeholder:text-amber-900 active:ring-3"
+							bind:value={description}
+						></textarea>
+						<p
+							class={`pointer-events-none absolute right-1 bottom-1 bg-amber-950/70 p-1 text-sm transition-opacity group-hover:opacity-25 ${descriptionValid ? 'text-amber-500' : 'text-amber-400'}`}
+						>
+							{descriptionCharCount}
+						</p>
+					</div>
 					{#if form?.invalid_description}
-						<p class="mt-1 text-sm">Invalid description, must be between 20 and 1000 characters</p>
+						<p class="mt-1 text-sm">
+							Invalid description, must be between {data.validationConstraints.words.min} and {data
+								.validationConstraints.words.max} characters
+						</p>
 					{/if}
 				</label>
 				<div class="mt-1 flex flex-row gap-2">
