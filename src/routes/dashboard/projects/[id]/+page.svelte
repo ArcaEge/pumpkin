@@ -1,4 +1,6 @@
 <script lang="ts">
+	import CharCountedTextarea from '../../../../lib/components/CharCountedTextarea.svelte';
+
 	import { SquarePen, ExternalLink, Trash, Ship, Lock } from '@lucide/svelte';
 	import relativeDate from 'tiny-relative-date';
 	import type { PageProps } from './$types';
@@ -15,14 +17,6 @@
 	let editable = $derived(data.project.status == 'building' || data.project.status == 'rejected');
 
 	let description = $state(form?.fields?.description ?? '');
-	let descriptionLength = $derived(description.toString().length);
-	let descriptionValid = $derived(
-		descriptionLength >= data.validationConstraints.words.min &&
-			descriptionLength <= data.validationConstraints.words.max
-	);
-	let descriptionCharCount = $derived(
-		`${descriptionLength}/${descriptionLength >= data.validationConstraints.words.min ? data.validationConstraints.words.max : data.validationConstraints.words.min}`
-	);
 
 	let timeSpent = $state(
 		form?.fields?.timeSpent?.toString()
@@ -137,19 +131,13 @@
 				</label>
 				<label class="flex flex-col gap-1">
 					Description
-					<div class="group relative">
-						<textarea
-							name="description"
-							placeholder="Describe what you changed"
-							class="themed-box min-h-20 w-full ring-amber-900 placeholder:text-amber-900 active:ring-3"
-							bind:value={description}
-						></textarea>
-						<p
-							class={`pointer-events-none absolute right-1 bottom-1 bg-amber-950/70 p-1 text-sm transition-opacity group-hover:opacity-25 ${descriptionValid ? 'text-amber-500' : 'text-amber-400'}`}
-						>
-							{descriptionCharCount}
-						</p>
-					</div>
+					<CharCountedTextarea
+						name="description"
+						placeholder="Describe what you changed"
+						bind:value={description}
+						min={data.validationConstraints.words.min}
+						max={data.validationConstraints.words.max}
+					/>
 					{#if form?.invalid_description}
 						<p class="mt-1 text-sm">
 							Invalid description, must be between {data.validationConstraints.words.min} and {data
