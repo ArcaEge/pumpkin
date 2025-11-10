@@ -135,13 +135,13 @@
 						name="description"
 						placeholder="Describe what you changed"
 						bind:value={description}
-						min={data.validationConstraints.words.min}
-						max={data.validationConstraints.words.max}
+						min={data.validationConstraints.description.min}
+						max={data.validationConstraints.description.max}
 					/>
 					{#if form?.invalid_description}
 						<p class="mt-1 text-sm">
-							Invalid description, must be between {data.validationConstraints.words.min} and {data
-								.validationConstraints.words.max} characters
+							Invalid description, must be between {data.validationConstraints.description.min} and {data
+								.validationConstraints.description.max} characters
 						</p>
 					{/if}
 				</label>

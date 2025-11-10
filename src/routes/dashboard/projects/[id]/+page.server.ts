@@ -13,11 +13,11 @@ import {
 } from './config';
 import sharp from 'sharp';
 import {
-	DESCRIPTION_MAX_WORDS,
-	DESCRIPTION_MIN_WORDS,
+	DEVLOG_DESCRIPTION_MAX_WORDS,
+	DEVLOG_DESCRIPTION_MIN_WORDS,
 	DEVLOG_MAX_TIME,
 	DEVLOG_MIN_TIME
-} from '$lib/server/defs';
+} from '$lib/defs';
 
 export async function load({ params }) {
 	const id: number = parseInt(params.id);
@@ -81,9 +81,9 @@ export async function load({ params }) {
 				max: DEVLOG_MAX_TIME,
 				currentMax: await getMaxDevlogTime(id)
 			},
-			words: {
-				min: DESCRIPTION_MIN_WORDS,
-				max: DESCRIPTION_MAX_WORDS
+			description: {
+				min: DEVLOG_DESCRIPTION_MIN_WORDS,
+				max: DEVLOG_DESCRIPTION_MAX_WORDS
 			}
 		}
 	};
@@ -122,8 +122,8 @@ export const actions = {
 
 		if (
 			!description ||
-			description.toString().trim().length < DESCRIPTION_MIN_WORDS ||
-			description.toString().trim().length > DESCRIPTION_MAX_WORDS
+			description.toString().trim().length < DEVLOG_DESCRIPTION_MIN_WORDS ||
+			description.toString().trim().length > DEVLOG_DESCRIPTION_MAX_WORDS
 		) {
 			return fail(400, {
 				fields: { description, timeSpent },

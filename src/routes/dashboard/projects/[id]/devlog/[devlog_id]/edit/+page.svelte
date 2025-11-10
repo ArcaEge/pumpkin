@@ -1,8 +1,10 @@
 <script lang="ts">
+	import CharCountedTextarea from '$lib/components/CharCountedTextarea.svelte';
 	import Devlog from '../../../Devlog.svelte';
 	import type { PageProps } from './$types';
 
 	let { data, form, params }: PageProps = $props();
+
 	let description = $state(form?.fields?.description ?? data.devlog.description);
 </script>
 
@@ -12,18 +14,21 @@
 	showModifyButtons={false}
 	projectId={params.id}
 />
-<p class="mt-3 text-sm">You can't update anything other than the description, if you want to change the time, image or 3D model then delete and recreate the journal entry.</p>
+<p class="mt-3 text-sm">
+	You can't update anything other than the description, if you want to change the time, image or 3D
+	model then delete and recreate the journal entry.
+</p>
 <form method="POST" class="flex flex-col gap-3">
 	<div class="mt-1 flex flex-col gap-2">
 		<label class="flex flex-col gap-1">
 			Description
-			<textarea
+			<CharCountedTextarea
 				name="description"
 				placeholder="Describe what you changed"
 				bind:value={description}
-				class="themed-box ring-amber-900 placeholder:text-amber-900 active:ring-3"
-				>{form?.fields?.description ?? data.devlog.description}</textarea
-			>
+				min={data.validationConstraints.description.min}
+				max={data.validationConstraints.description.max}
+			/>
 		</label>
 		{#if form?.invalid_description}
 			<p class="mt-1 text-sm">Invalid description, must be between 20 and 1000 characters</p>

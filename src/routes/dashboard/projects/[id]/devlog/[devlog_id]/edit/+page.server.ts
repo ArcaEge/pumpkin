@@ -3,6 +3,7 @@ import { project, devlog } from '$lib/server/db/schema.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { and, eq } from 'drizzle-orm';
+import { DEVLOG_DESCRIPTION_MAX_WORDS, DEVLOG_DESCRIPTION_MIN_WORDS } from '$lib/defs';
 
 export async function load({ params, locals }) {
 	const id: number = parseInt(params.id);
@@ -42,6 +43,12 @@ export async function load({ params, locals }) {
 			model: queriedDevlog.model,
 			timeSpent: queriedDevlog.timeSpent,
 			createdAt: queriedDevlog.createdAt
+		},
+		validationConstraints: {
+			description: {
+				min: DEVLOG_DESCRIPTION_MIN_WORDS,
+				max: DEVLOG_DESCRIPTION_MAX_WORDS
+			}
 		}
 	};
 }
@@ -84,8 +91,8 @@ export const actions = {
 
 		if (
 			!description ||
-			description.toString().trim().length < 20 ||
-			description.toString().trim().length > 1000
+			description.toString().trim().length < DEVLOG_DESCRIPTION_MIN_WORDS ||
+			description.toString().trim().length > DEVLOG_DESCRIPTION_MAX_WORDS
 		) {
 			return fail(400, {
 				fields: { description },
